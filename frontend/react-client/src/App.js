@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import { Container } from "react-bootstrap";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
                 <Container>
                     <Route path="/register" component={RegisterScreen} />
                     <Route path="/login" component={LoginScreen} />
+                    <Route path="/profile" component={ProfileScreen} />
                     <Route path="/" component={HomeScreen} exact />
                 </Container>
             </main>
