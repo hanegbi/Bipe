@@ -17,6 +17,11 @@ function SearchBox({ history }) {
         }
     };
 
+    const clearFilters = () => {
+        setCategory("Categories");
+        setKeyword("");
+    };
+
     return (
         <Form onSubmit={submitHandler} inline>
             <DropdownButton
@@ -37,12 +42,16 @@ function SearchBox({ history }) {
             <FormControl
                 type="text"
                 name="q"
+                value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder="Search Products..."
                 className="mr-sm-2"
             ></FormControl>
-            <Button type="submit" variant="outline-success" className="p-2">
+            <Button type="submit" variant="outline-success" className="p-2 mr-sm-2">
                 Search
+            </Button>
+            <Button onClick={clearFilters} variant="outline-secondary" className="p-2">
+                Clear
             </Button>
         </Form>
     );
