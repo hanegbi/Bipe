@@ -8,11 +8,11 @@ import {
     PRODUCT_DETAILS_FAIL,
 } from "../constants/productConstants";
 
-export const listProducts = (keyword = "") => async (dispatch) => {
+export const listProducts = (category = "", keyword = "") => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST });
 
-        const { data } = await axios.get(`/api/products?keyword=${keyword}`);
+        const { data } = await axios.get(`/api/products?category=${category}&keyword=${keyword}`);
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,

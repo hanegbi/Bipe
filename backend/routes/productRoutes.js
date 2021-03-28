@@ -9,6 +9,14 @@ import Product from "../models/productModel.js";
 router.get(
     "/",
     asyncHandler(async (req, res) => {
+        const category = req.query.category
+            ? {
+                  category: {
+                      $regex: req.query.category === "Categories" ? "" : req.query.category,
+                      $options: "i",
+                  },
+              }
+            : {};
         const keyword = req.query.keyword
             ? {
                   name: {
@@ -17,8 +25,7 @@ router.get(
                   },
               }
             : {};
-
-        const products = await Product.find({ ...keyword });
+        const products = await Product.find({ ...category, ...keyword });
         res.json(products);
     })
 );

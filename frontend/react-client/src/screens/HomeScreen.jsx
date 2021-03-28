@@ -7,6 +7,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 
 function HomeScreen({ match }) {
+    const category = match.params.category;
     const keyword = match.params.keyword;
 
     const dispatch = useDispatch();
@@ -15,8 +16,8 @@ function HomeScreen({ match }) {
     const { loading, error, products } = productList;
 
     useEffect(() => {
-        dispatch(listProducts(keyword));
-    }, [dispatch, keyword]);
+        dispatch(listProducts(category, keyword));
+    }, [dispatch, category, keyword]);
 
     return (
         <>
