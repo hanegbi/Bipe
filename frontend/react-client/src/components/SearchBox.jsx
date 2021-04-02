@@ -25,7 +25,6 @@ function SearchBox({ history }) {
     return (
         <Form onSubmit={submitHandler} inline>
             <DropdownButton
-                variant="secondary"
                 className="mr-sm-2 ml-sm-5"
                 title={category === "" ? "Categories" : category}
             >
@@ -47,10 +46,10 @@ function SearchBox({ history }) {
                 placeholder="Search Products..."
                 className="mr-sm-2"
             ></FormControl>
-            <Button type="submit" variant="outline-success" className="p-2 mr-sm-2">
+            <Button type="submit" className="p-2 mr-sm-2">
                 Search
             </Button>
-            <Button onClick={clearFilters} variant="outline-secondary" className="p-2">
+            <Button onClick={clearFilters} className="p-2">
                 Clear
             </Button>
         </Form>
