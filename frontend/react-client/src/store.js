@@ -1,19 +1,23 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { productListReducer, productDetailsReducer } from "./reducers/productReducers";
-import { cartReducer } from "./reducers/cartReducers";
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import {
+    productListReducer,
+    productDetailsReducer,
+} from './reducers/productReducers';
+import { cartReducer } from './reducers/cartReducers';
 import {
     userLoginReducer,
     userRegisterReducer,
     userDetailsReducer,
     userUpdateProfileReducer,
-} from "./reducers/userReducers";
+    userListReducer,
+} from './reducers/userReducers';
 import {
     orderCreateReducer,
     orderDetailsReducer,
     orderListMyReducer,
-} from "./reducers/orderReducers";
+} from './reducers/orderReducers';
 
 const reducer = combineReducers({
     productList: productListReducer,
@@ -23,26 +27,27 @@ const reducer = combineReducers({
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
+    userList: userListReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderListMy: orderListMyReducer,
 });
 
-const cartItemsFromStorage = localStorage.getItem("cartItems")
-    ? JSON.parse(localStorage.getItem("cartItems"))
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+    ? JSON.parse(localStorage.getItem('cartItems'))
     : [];
 
-const userInfoFromStorage = localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo"))
+const userInfoFromStorage = localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo'))
     : null;
 
-const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
-    ? JSON.parse(localStorage.getItem("shippingAddress"))
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
+    ? JSON.parse(localStorage.getItem('shippingAddress'))
     : {
-          address: "",
-          city: "",
-          postalCode: "",
-          country: "",
+          address: '',
+          city: '',
+          postalCode: '',
+          country: '',
       };
 
 const initialState = {

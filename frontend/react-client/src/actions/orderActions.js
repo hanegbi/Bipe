@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS,
@@ -9,8 +9,8 @@ import {
     ORDER_LIST_MY_REQUEST,
     ORDER_LIST_MY_SUCCESS,
     ORDER_LIST_MY_FAILURE,
-} from "../constants/orderConstants";
-import { logout } from "./userActions";
+} from '../constants/orderConstants';
+import { logout } from './userActions';
 
 export const createOrder = (order) => async (dispatch, getState) => {
     try {
@@ -24,12 +24,12 @@ export const createOrder = (order) => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${userInfo.token}`,
             },
         };
 
-        const { data } = await axios.post("/api/orders", order, config);
+        const { data } = await axios.post('/api/orders', order, config);
 
         dispatch({
             type: ORDER_CREATE_SUCCESS,
@@ -106,7 +106,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
             error.response && error.response.data.message
                 ? error.response.data.message
                 : error.message;
-        if (message === "Not authorized, token failed") {
+        if (message === 'Not authorized, token failed') {
             dispatch(logout());
         }
         dispatch({
