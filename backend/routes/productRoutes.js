@@ -1,19 +1,29 @@
-import express from "express";
-import asyncHandler from "express-async-handler";
+import express from 'express';
+import asyncHandler from 'express-async-handler';
+import {
+    deleteProduct,
+    getProductById,
+} from '../controllers/productController.js';
 const router = express.Router();
-import Product from "../models/productModel.js";
+import { protect, admin } from '../middleware/authMiddleware.js';
+import Product from '../models/productModel.js';
+
+router.route('/:id').get(getProductById).delete(protect, admin, deleteProduct);
 
 // @desc    Fetch all products
 // @route   Get /api/products
 // @access  Public
 router.get(
-    "/",
+    '/',
     asyncHandler(async (req, res) => {
         const category = req.query.category
             ? {
                   category: {
-                      $regex: req.query.category === "Categories" ? "" : req.query.category,
-                      $options: "i",
+                      $regex:
+                          req.query.category === 'Categories'
+                              ? ''
+                              : req.query.category,
+                      $options: 'i',
                   },
               }
             : {};
@@ -21,7 +31,7 @@ router.get(
             ? {
                   name: {
                       $regex: req.query.keyword,
-                      $options: "i",
+                      $options: 'i',
                   },
               }
             : {};
@@ -34,7 +44,7 @@ router.get(
 // @route   Get /api/products/:id
 // @access  Public
 router.get(
-    "/:id",
+    '/:id',
     asyncHandler(async (req, res) => {
         const product = await Product.findById(req.params.id);
         if (product) {
@@ -47,7 +57,7 @@ router.get(
 // @route   Post /api/products
 // @access  Public
 router.post(
-    "/",
+    '/',
     asyncHandler(async (req, res) => {
         const product = new Product({
             name: req.body.name,
@@ -66,16 +76,16 @@ router.post(
 // @route   Delete /api/products/:id
 // @access  Private/Admin
 router.delete(
-    "/:id",
+    '/:id',
     asyncHandler(async (req, res) => {
         const product = await Product.findById(req.params.id);
 
         if (product) {
             await product.remove();
-            res.json({ message: "Product removed" });
+            res.json({ message: 'Product removed' });
         } else {
             res.status(404);
-            throw new Error("Product not found");
+            throw new Error('Product not found');
         }
     })
 );
