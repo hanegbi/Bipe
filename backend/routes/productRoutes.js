@@ -2,13 +2,22 @@ import express from 'express';
 import asyncHandler from 'express-async-handler';
 import {
     deleteProduct,
+    getProducts,
     getProductById,
+    createProduct,
+    updateProduct,
 } from '../controllers/productController.js';
 const router = express.Router();
 import { protect, admin } from '../middleware/authMiddleware.js';
 import Product from '../models/productModel.js';
 
-router.route('/:id').get(getProductById).delete(protect, admin, deleteProduct);
+router.route('/').get(getProducts).post(protect, admin, createProduct);
+
+router
+    .route('/:id')
+    .get(getProductById)
+    .delete(protect, admin, deleteProduct)
+    .put(protect, admin, updateProduct);
 
 // @desc    Fetch all products
 // @route   Get /api/products
