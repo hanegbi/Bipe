@@ -14,6 +14,10 @@ function ProfileScreen({ location, history }) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState(null);
+    const [fromDate, setFromDate] = useState(new Date().getUTCDate());
+    const [untilDate, setUntilDate] = useState(new Date().getTime());
+    const [minPrice, setMinPrice] = useState("");
+    const [maxPrice, setMaxPrice] = useState("");
 
     const dispatch = useDispatch();
 
@@ -35,14 +39,14 @@ function ProfileScreen({ location, history }) {
         } else if (!user || !user.name || success) {
             // dispatch({ type: USER_UPDATE_PROFILE_RESET });
             dispatch(getUserDetails("profile"));
-            dispatch(listMyOrders());
+            dispatch(listMyOrders(fromDate, untilDate, minPrice, maxPrice));
         } else {
             setName(user.name);
             setEmail(user.email);
         }
     }, [dispatch, history, userInfo, user, success]);
 
-    const submitHandler = (e) => {
+    const submitUpdateProfileHandler = (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
             setMessage("Passwords do not match");
@@ -51,18 +55,24 @@ function ProfileScreen({ location, history }) {
         }
     };
 
+    const submitSearchOrdersHandler = (e) => {
+        e.preventDefault();
+        dispatch(listMyOrders(fromDate, untilDate, minPrice, maxPrice));
+    };
+
     return (
         <Row>
-            <Col md={3}>
+            <Col md={2}>
                 <h2>User Profile</h2>
                 {message && <Message variant="danger">{message}</Message>}
                 {error && <Message variant="danger">{error}</Message>}
                 {success && <Message variant="success">Profile Updated</Message>}
                 {loading && <Loader />}
-                <Form onSubmit={submitHandler}>
+                <Form onSubmit={submitUpdateProfileHandler}>
                     <Form.Group controlId="name">
                         <Form.Label>Name</Form.Label>
                         <Form.Control
+                            size="sm"
                             type="name"
                             placeholder="Enter name"
                             value={name}
@@ -73,6 +83,7 @@ function ProfileScreen({ location, history }) {
                     <Form.Group controlId="email">
                         <Form.Label>Email Address</Form.Label>
                         <Form.Control
+                            size="sm"
                             type="email"
                             placeholder="Enter email"
                             value={email}
@@ -83,6 +94,7 @@ function ProfileScreen({ location, history }) {
                     <Form.Group controlId="password">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
+                            size="sm"
                             type="password"
                             placeholder="Enter password"
                             value={password}
@@ -93,6 +105,7 @@ function ProfileScreen({ location, history }) {
                     <Form.Group controlId="confirmPassword">
                         <Form.Label>Confirm Password</Form.Label>
                         <Form.Control
+                            size="sm"
                             type="password"
                             placeholder="Confirm password"
                             value={confirmPassword}
@@ -100,13 +113,64 @@ function ProfileScreen({ location, history }) {
                         ></Form.Control>
                     </Form.Group>
 
-                    <Button type="submit" variant="primary">
+                    <Button type="submit" variant="primary" size="sm">
                         Update
                     </Button>
                 </Form>
             </Col>
-            <Col md={9}>
+            <Col md={10}>
                 <h2>My Orders</h2>
+
+                <Form onSubmit={submitSearchOrdersHandler} inline>
+                    <Form.Group controlId="fromDate">
+                        <Form.Label className="mb-2 mr-sm-2">From</Form.Label>
+                        <Form.Control
+                            size="sm"
+                            type="date"
+                            value={fromDate}
+                            onChange={(e) => setFromDate(e.target.value)}
+                            className="mb-2 mr-sm-2"
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="untilDate">
+                        <Form.Label className="mb-2 mr-sm-2">until</Form.Label>
+                        <Form.Control
+                            size="sm"
+                            type="date"
+                            value={untilDate}
+                            onChange={(e) => setUntilDate(e.target.value)}
+                            className="mb-2 mr-sm-2"
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="minPrice">
+                        <Form.Control
+                            size="sm"
+                            placeholder="Min Price"
+                            type="money"
+                            value={minPrice}
+                            onChange={(e) => setMinPrice(e.target.value)}
+                            className="mb-2 mr-sm-2"
+                        ></Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="maxPrice">
+                        <Form.Control
+                            size="sm"
+                            placeholder="Max Price"
+                            type="money"
+                            value={maxPrice}
+                            onChange={(e) => setMaxPrice(e.target.value)}
+                            className="mb-2 mr-sm-2"
+                        ></Form.Control>
+                    </Form.Group>
+
+                    <Button type="submit" className="mb-2" size="sm">
+                        Search
+                    </Button>
+                </Form>
+
                 {loadingOrders ? (
                     <Loader />
                 ) : errorOrders ? (
