@@ -14,6 +14,8 @@ function ProfileScreen({ location, history }) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState(null);
+    const [fromDate, setFromDate] = useState(new Date().getUTCDate());
+    const [untilDate, setUntilDate] = useState(new Date().getTime());
 
     const dispatch = useDispatch();
 
@@ -35,20 +37,25 @@ function ProfileScreen({ location, history }) {
         } else if (!user || !user.name || success) {
             // dispatch({ type: USER_UPDATE_PROFILE_RESET });
             dispatch(getUserDetails("profile"));
-            dispatch(listMyOrders());
+            dispatch(listMyOrders(fromDate, untilDate));
         } else {
             setName(user.name);
             setEmail(user.email);
         }
     }, [dispatch, history, userInfo, user, success]);
 
-    const submitHandler = (e) => {
+    const submitUpdateProfileHandler = (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
             setMessage("Passwords do not match");
         } else {
             dispatch(updateUserProfile({ id: user._id, name, email, password }));
         }
+    };
+
+    const submitSearchOrdersHandler = (e) => {
+        e.preventDefault();
+        dispatch(listMyOrders(fromDate, untilDate));
     };
 
     return (
@@ -59,7 +66,7 @@ function ProfileScreen({ location, history }) {
                 {error && <Message variant="danger">{error}</Message>}
                 {success && <Message variant="success">Profile Updated</Message>}
                 {loading && <Loader />}
-                <Form onSubmit={submitHandler}>
+                <Form onSubmit={submitUpdateProfileHandler}>
                     <Form.Group controlId="name">
                         <Form.Label>Name</Form.Label>
                         <Form.Control
@@ -107,6 +114,33 @@ function ProfileScreen({ location, history }) {
             </Col>
             <Col md={9}>
                 <h2>My Orders</h2>
+
+                <Form onSubmit={submitSearchOrdersHandler} inline>
+                    <Form.Group controlId="fromDate">
+                        <Form.Label className="mb-2 mr-sm-2">From</Form.Label>
+                        <Form.Control
+                            type="date"
+                            value={fromDate}
+                            onChange={(e) => setFromDate(e.target.value)}
+                            className="mb-2 mr-sm-2"
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="untilDate">
+                        <Form.Label className="mb-2 mr-sm-2">until</Form.Label>
+                        <Form.Control
+                            type="date"
+                            value={untilDate}
+                            onChange={(e) => setUntilDate(e.target.value)}
+                            className="mb-2 mr-sm-2"
+                        />
+                    </Form.Group>
+
+                    <Button type="submit" className="mb-2">
+                        Search
+                    </Button>
+                </Form>
+
                 {loadingOrders ? (
                     <Loader />
                 ) : errorOrders ? (
