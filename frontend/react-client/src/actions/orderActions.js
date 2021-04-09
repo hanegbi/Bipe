@@ -122,7 +122,12 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
     }
 };
 
-export const listMyOrders = (fromDate = {}, untilDate = {}) => async (dispatch, getState) => {
+export const listMyOrders = (
+    fromDate = {},
+    untilDate = {},
+    minPrice = 0,
+    maxPrice = Number.MAX_SAFE_INTEGER
+) => async (dispatch, getState) => {
     try {
         dispatch({
             type: ORDER_LIST_MY_REQUEST,
@@ -139,7 +144,7 @@ export const listMyOrders = (fromDate = {}, untilDate = {}) => async (dispatch, 
         };
 
         const { data } = await axios.get(
-            `/api/orders/myorders?fromdate=${fromDate}&untildate=${untilDate}`,
+            `/api/orders/myorders?fromdate=${fromDate}&untildate=${untilDate}&minprice=${minPrice}&maxprice=${maxPrice}`,
             config
         );
 
