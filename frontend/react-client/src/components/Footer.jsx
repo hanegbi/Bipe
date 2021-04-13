@@ -1,12 +1,28 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import {React, useEffect, useState} from "react";
+import { Container, Row } from "react-bootstrap";
+import { io } from "socket.io-client";
 
 function Footer() {
+    const [userCount, setUserCount] = useState(0);
+
+    useEffect(() => {
+        const socket = io()
+        socket.on('count', userCounter=>{
+            setUserCount(userCounter)
+        });
+
+        return () => socket.disconnect();
+      }, []);
+
+
     return (
         <footer>
-            <Container>
+            <Container className="d-flex flex-column align-items-center m-10">
                 <Row>
-                    <Col className="text-center py-3">Copyright &copy; Bipe</Col>
+                    <p className="text-center">Copyright &copy; Bipe</p>
+                </Row>
+                <Row>
+                    <p className="text-center font-weight-bold"> {`Connected Clients ${userCount}`}  </p>
                 </Row>
             </Container>
         </footer>

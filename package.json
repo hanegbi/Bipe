@@ -39,6 +39,9 @@
     "moment": "^2.29.1",
     "mongoose": "^5.11.10",
     "puppeteer": "^8.0.0",
-    "react-bootstrap": "^1.5.2"
+    "react-bootstrap": "^1.5.2",
+    "socket.io": "^4.0.1",
+    "socket.io-client": "^4.0.1",
+    "websocket": "^1.0.33"
   }
 }
