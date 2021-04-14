@@ -16,6 +16,7 @@ import OrderScreen from './screens/OrderScreen';
 import UserListScreen from './screens/UserListScreen.jsx';
 import UserEditScreen from './screens/UserEditScreen.jsx';
 import ProductListScreen from './screens/ProductListScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
 
 function App() {
     return (
@@ -39,6 +40,10 @@ function App() {
                     <Route
                         path='/admin/users/:id/edit'
                         component={UserEditScreen}
+                    />
+                     <Route
+                        path='/admin/product/:id/edit'
+                        component={ProductEditScreen}
                     />
                     <Route
                         path='/search/:category?/:keyword?'

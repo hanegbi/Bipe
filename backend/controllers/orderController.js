@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
+// import agg from "../selects/groupBy(users_avg_price).js"
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -52,8 +53,52 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.find({ user: req.user._id });
+    const fromDate = req.query.fromdate || new Date("July 20, 69 00:20:18 GMT+00:00");
+    const untilDate = req.query.untildate || Date().getTime();
+    const minPrice = req.query.minprice || 0;
+    const maxPrice = req.query.maxprice || Number.MAX_SAFE_INTEGER;
+
+    const orders = await Order.find({
+        user: req.user._id,
+        createdAt: { $gte: fromDate, $lte: untilDate },
+        totalPrice: { $gte: minPrice, $lte: maxPrice },
+    });
     res.json(orders);
 });
 
-export { addOrderItems, getOrderById, getMyOrders };
+// @desc    Get All orders
+// @route   GET /api/orders
+// @access  Private/Admin
+const getOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.find({}).populate("user", "id name");
+    res.json(orders);
+});
+
+
+// @desc    Get logged in user orders
+// @route   GET /api/orders/usersgraph
+// @access  Private
+const getUsersGraph = asyncHandler(async (req, res) => {
+    const orders = await Order.aggregate([
+        {
+          '$project': {
+            'totalPrice': 1, 
+            'shippingAddress.city': 1
+          }
+        }, {
+          '$group': {
+            '_id': '$shippingAddress.city', 
+            'avg_price': {
+              '$avg': '$totalPrice'
+            }
+          }
+        }
+      ])
+    res.json(orders);
+});
+
+// const getUsersGraph = asyncHandler(async (req, res) => {
+//     const orders = await Order.find({ user: req.user._id });
+//     res.json(orders);
+// });
+export { addOrderItems, getOrderById, getMyOrders, getUsersGraph };
