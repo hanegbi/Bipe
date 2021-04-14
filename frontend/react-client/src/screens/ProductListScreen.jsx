@@ -79,8 +79,8 @@ const ProductListScreen = ({ history, match }) => {
                                         </Button>
                                     </LinkContainer>
                                     <Button
-                                        variant="danger"
-                                        className="btn=sm"
+                                        variant="light"
+                                        className="btn-sm"
                                         onClick={() => deleteHandler(product._id)}
                                     >
                                         <i className="fas fa-trash"></i>
