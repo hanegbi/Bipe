@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button } from "react-bootstrap";
+import { Form, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listUsers, deleteUser } from "../actions/userActions";
 
 const UserListScreen = ({ history }) => {
+    // const [name, setName] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [regularUsers, setRegularUsers] = useState(true);
+    // const [adminUsers, setAdminUsers] = useState(true);
+
     const dispatch = useDispatch();
 
     const userList = useSelector((state) => state.userList);
@@ -35,6 +40,46 @@ const UserListScreen = ({ history }) => {
     return (
         <>
             <h1>Users</h1>
+            {/* 
+            <Form inline>
+                <Form.Group controlId="name">
+                    <Form.Control
+                        size="sm"
+                        placeholder="Name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="mb-2 mr-sm-2"
+                    ></Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="email">
+                    <Form.Control
+                        size="sm"
+                        placeholder="Email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="mb-2 mr-sm-2"
+                    ></Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="isRegularUser">
+                    <Form.Check
+                        size="sm"
+                        type="checkbox"
+                        checked={regularUsers}
+                        label="Users"
+                        onChange={(e) => setRegularUsers(e.target.value)}
+                        className="mb-2 mr-sm-2"
+                    ></Form.Check>
+                </Form.Group>
+
+                <Button type="submit" className="mb-2" size="sm">
+                    Search
+                </Button>
+            </Form> */}
+
             {loading ? (
                 <Loader />
             ) : error ? (
@@ -44,9 +89,9 @@ const UserListScreen = ({ history }) => {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>NAME</th>
-                            <th>EMAIL</th>
-                            <th>ADMIN</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Is Admin</th>
                             <th></th>
                         </tr>
                     </thead>
