@@ -39,7 +39,7 @@ function ProfileScreen({ location, history }) {
         } else if (!user || !user.name || success) {
             // dispatch({ type: USER_UPDATE_PROFILE_RESET });
             dispatch(getUserDetails("profile"));
-            dispatch(listMyOrders(fromDate, untilDate, minPrice, maxPrice));
+            dispatch(listMyOrders());
         } else {
             setName(user.name);
             setEmail(user.email);
