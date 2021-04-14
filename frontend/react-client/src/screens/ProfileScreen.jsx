@@ -14,7 +14,7 @@ function ProfileScreen({ location, history }) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState(null);
-    const [fromDate, setFromDate] = useState(new Date().getUTCDate());
+    const [fromDate, setFromDate] = useState(new Date("July 20, 69 00:20:18 GMT+00:00"));
     const [untilDate, setUntilDate] = useState(new Date().getTime());
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");

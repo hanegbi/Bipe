@@ -52,7 +52,7 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-    const fromDate = req.query.fromdate || Date.getUTCDate();
+    const fromDate = req.query.fromdate || new Date("July 20, 69 00:20:18 GMT+00:00");
     const untilDate = req.query.untildate || Date().getTime();
     const minPrice = req.query.minprice || 0;
     const maxPrice = req.query.maxprice || Number.MAX_SAFE_INTEGER;
