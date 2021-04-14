@@ -8,8 +8,10 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.1",
+    "http": "0.0.1-security",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.0",
+    "react-bootstrap-range-slider": "^2.0.2",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
     "react-router-bootstrap": "^0.25.0",
@@ -18,7 +20,8 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "websocket": "^1.0.33"
   },
   "scripts": {
     "start": "react-scripts start",

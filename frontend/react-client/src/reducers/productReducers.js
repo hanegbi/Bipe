@@ -31,10 +31,7 @@ export const productListReducer = (state = { products: [] }, action) => {
     }
 };
 
-export const productDetailsReducer = (
-    state = { product: { reviews: [] } },
-    action
-) => {
+export const productDetailsReducer = (state = { product: { reviews: [] } }, action) => {
     switch (action.type) {
         case PRODUCT_DETAILS_REQUEST:
             return { loading: true, ...state };
@@ -47,7 +44,7 @@ export const productDetailsReducer = (
     }
 };
 
-export const productdeleteReducer = (state = {}, action) => {
+export const productDeleteReducer = (state = {}, action) => {
     switch (action.type) {
         case PRODUCT_DELETE_REQUEST:
             return { loading: true };
