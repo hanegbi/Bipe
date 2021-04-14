@@ -3,7 +3,29 @@ import { FormControl, Dropdown, DropdownButton } from "react-bootstrap";
 import { Form, Button } from "react-bootstrap";
 
 function SearchBox({ history }) {
-    const categories = ["Categories", "Fruits", "Vegetables"];
+    const categories = [
+        "Categories",
+        "Vegetables",
+        "Fruits",
+        "Legumes",
+        "Baking",
+        "Oils",
+        "Pastas",
+        "Sauces",
+        "Spices",
+        "Chicken",
+        "Dairy",
+        "Breads",
+        "Tahini",
+        "Canned Tomatoes",
+        "Cereals",
+        "Frozen Vegetables",
+        "Drinks",
+        "Doughs",
+        "Canned Fish",
+        "Nuts",
+        "Eggs",
+    ];
 
     const [category, setCategory] = useState("Categories");
     const [keyword, setKeyword] = useState("");

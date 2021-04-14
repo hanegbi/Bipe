@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
+// import agg from "../selects/groupBy(users_avg_price).js"
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -52,10 +53,10 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-    const fromDate = req.query.fromdate ? req.query.fromdate : Date.getUTCDate();
-    const untilDate = req.query.untildate ? req.query.untildate : Date().getTime();
-    const minPrice = req.query.minprice ? req.query.minprice : 0;
-    const maxPrice = req.query.maxprice ? req.query.maxprice : Number.MAX_SAFE_INTEGER;
+    const fromDate = req.query.fromdate || new Date("July 20, 69 00:20:18 GMT+00:00");
+    const untilDate = req.query.untildate || Date().getTime();
+    const minPrice = req.query.minprice || 0;
+    const maxPrice = req.query.maxprice || Number.MAX_SAFE_INTEGER;
 
     const orders = await Order.find({
         user: req.user._id,
@@ -73,23 +74,47 @@ const getOrders = asyncHandler(async (req, res) => {
     res.json(orders);
 });
 
+
+// @desc    Get logged in user orders
+// @route   GET /api/orders/usersgraph
+// @access  Private
+const getUsersGraph = asyncHandler(async (req, res) => {
+    const orders = await Order.aggregate([
+        {
+          '$project': {
+            'totalPrice': 1, 
+            'shippingAddress.city': 1
+          }
+        }, {
+          '$group': {
+            '_id': '$shippingAddress.city', 
+            'avg_price': {
+              '$avg': '$totalPrice'
+            }
+          }
+        }
+      ])
+    res.json(orders);
+});
+
+export { addOrderItems, getOrderById, getMyOrders, getOrders, getUsersGraph };
+
 // @desc    Update order to delivered
 // @route   GET /api/orders/:id/deliver
 // @access  Private/Admin
-const updateOrderToDelivered = asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+// const updateOrderToDelivered = asyncHandler(async (req, res) => {
+//     const order = await Order.findById(req.params.id);
 
-    if (order) {
-        order.isDelivered = true;
-        order.deliveredAt = Date.now();
+//     if (order) {
+//         order.isDelivered = true;
+//         order.deliveredAt = Date.now();
 
-        const updatedOrder = await order.save();
+//         const updatedOrder = await order.save();
 
-        res.json(updatedOrder);
-    } else {
-        res.status(404);
-        throw new Error("Order not found");
-    }
-});
+//         res.json(updatedOrder);
+//     } else {
+//         res.status(404);
+//         throw new Error("Order not found");
+//     }
+// });
 
-export { addOrderItems, getOrderById, getMyOrders, getOrders, updateOrderToDelivered };

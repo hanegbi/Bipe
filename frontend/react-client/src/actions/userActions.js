@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
     USER_LOGIN_FAILURE,
     USER_LOGIN_REQUEST,
@@ -24,8 +24,8 @@ import {
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
     USER_UPDATE_FAILURE,
-} from '../constants/userConstants';
-import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
+} from "../constants/userConstants";
+import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -35,22 +35,18 @@ export const login = (email, password) => async (dispatch) => {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
         };
 
-        const { data } = await axios.post(
-            '/api/users/login',
-            { email, password },
-            config
-        );
+        const { data } = await axios.post("/api/users/login", { email, password }, config);
 
         dispatch({
             type: USER_LOGIN_SUCCESS,
             payload: data,
         });
 
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
         dispatch({
             type: USER_LOGIN_FAILURE,
@@ -63,7 +59,7 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-    localStorage.removeItem('userInfo');
+    localStorage.removeItem("userInfo");
     dispatch({ type: USER_LOGOUT });
     dispatch({ type: USER_DETAILS_RESET });
     dispatch({ type: ORDER_LIST_MY_RESET });
@@ -78,15 +74,11 @@ export const register = (name, email, password) => async (dispatch) => {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
         };
 
-        const { data } = await axios.post(
-            '/api/users',
-            { name, email, password },
-            config
-        );
+        const { data } = await axios.post("/api/users", { name, email, password }, config);
 
         dispatch({
             type: USER_REGISTER_SUCCESS,
@@ -98,7 +90,7 @@ export const register = (name, email, password) => async (dispatch) => {
             payload: data,
         });
 
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
         dispatch({
             type: USER_REGISTER_FAILURE,
@@ -137,7 +129,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
             error.response && error.response.data.message
                 ? error.response.data.message
                 : error.message;
-        if (message === 'Not authorized, token failed') {
+        if (message === "Not authorized, token failed") {
             dispatch(logout());
         }
         dispatch({
@@ -159,7 +151,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${userInfo.token}`,
             },
         };
@@ -171,7 +163,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
             payload: data,
         });
 
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
         dispatch({
             type: USER_UPDATE_PROFILE_FAILURE,
@@ -206,7 +198,7 @@ export const listUsers = () => async (dispatch, getState) => {
             payload: data,
         });
 
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
         dispatch({
             type: USER_LIST_FAILURE,
@@ -262,16 +254,12 @@ export const updateUser = (user) => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${userInfo.token}`,
             },
         };
 
-        const { data } = await axios.put(
-            `/api/users/${user._id}`,
-            user,
-            config
-        );
+        const { data } = await axios.put(`/api/users/${user._id}`, user, config);
 
         dispatch({
             type: USER_UPDATE_SUCCESS,

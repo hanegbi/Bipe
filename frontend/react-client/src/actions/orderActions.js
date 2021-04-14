@@ -123,8 +123,8 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
 };
 
 export const listMyOrders = (
-    fromDate = {},
-    untilDate = {},
+    fromDate = new Date("July 20, 69 00:20:18 GMT+00:00"),
+    untilDate = new Date().getTime(),
     minPrice = 0,
     maxPrice = Number.MAX_SAFE_INTEGER
 ) => async (dispatch, getState) => {

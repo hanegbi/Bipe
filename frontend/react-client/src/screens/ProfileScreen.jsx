@@ -6,7 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { listMyOrders } from "../actions/orderActions";
-// import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 
 function ProfileScreen({ location, history }) {
     const [name, setName] = useState("");
@@ -14,7 +14,7 @@ function ProfileScreen({ location, history }) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState(null);
-    const [fromDate, setFromDate] = useState(new Date().getUTCDate());
+    const [fromDate, setFromDate] = useState(new Date("July 20, 69 00:20:18 GMT+00:00"));
     const [untilDate, setUntilDate] = useState(new Date().getTime());
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
@@ -37,9 +37,9 @@ function ProfileScreen({ location, history }) {
         if (!userInfo) {
             history.push("/login");
         } else if (!user || !user.name || success) {
-            // dispatch({ type: USER_UPDATE_PROFILE_RESET });
+            dispatch({ type: USER_UPDATE_PROFILE_RESET });
             dispatch(getUserDetails("profile"));
-            dispatch(listMyOrders(fromDate, untilDate, minPrice, maxPrice));
+            dispatch(listMyOrders());
         } else {
             setName(user.name);
             setEmail(user.email);
