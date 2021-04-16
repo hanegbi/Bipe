@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
     PRODUCT_LIST_REQUEST,
     PRODUCT_LIST_SUCCESS,
@@ -14,18 +14,14 @@ import {
     PRODUCT_CREATE_FAIL,
     PRODUCT_UPDATE_SUCCESS,
     PRODUCT_UPDATE_FAIL,
-    PRODUCT_UPDATE_REQUEST
-} from '../constants/productConstants';
+    PRODUCT_UPDATE_REQUEST,
+} from "../constants/productConstants";
 
-export const listProducts = (category = '', keyword = '') => async (
-    dispatch
-) => {
+export const listProducts = (category = "", keyword = "") => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST });
 
-        const { data } = await axios.get(
-            `/api/products?category=${category}&keyword=${keyword}`
-        );
+        const { data } = await axios.get(`/api/products?category=${category}&keyword=${keyword}`);
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
@@ -64,7 +60,6 @@ export const listProductDetails = (id) => async (dispatch) => {
 };
 
 export const deleteProduct = (id) => async (dispatch, getState) => {
-
     try {
         dispatch({
             type: PRODUCT_DELETE_REQUEST,
@@ -90,7 +85,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
             error.response && error.response.data.message
                 ? error.response.data.message
                 : error.message;
-        if (message === 'Not authorized, token failed') {
+        if (message === "Not authorized, token failed") {
             dispatch();
         }
         dispatch({
@@ -100,9 +95,17 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     }
 };
 
-export const createProduct = () => async (dispatch, getState) => {
-
+export const createProduct = ({
+    name,
+    price,
+    image,
+    brand,
+    category,
+    description,
+    countInStock,
+}) => async (dispatch, getState) => {
     try {
+        console.log(image);
         dispatch({
             type: PRODUCT_CREATE_REQUEST,
         });
@@ -117,18 +120,22 @@ export const createProduct = () => async (dispatch, getState) => {
             },
         };
 
-        const { data } = await axios.post(`/api/products`, {}, config);
+        const { data } = await axios.post(
+            `/api/products?name=${name}&price=${price}&image=${image}&brand=${brand}&category=${category}&description=${description}&countinstock=${countInStock}`,
+            {},
+            config
+        );
 
         dispatch({
             type: PRODUCT_CREATE_SUCCESS,
-            payload: data
+            payload: data,
         });
     } catch (error) {
         const message =
             error.response && error.response.data.message
                 ? error.response.data.message
                 : error.message;
-        if (message === 'Not authorized, token failed') {
+        if (message === "Not authorized, token failed") {
             dispatch();
         }
         dispatch({
@@ -139,7 +146,6 @@ export const createProduct = () => async (dispatch, getState) => {
 };
 
 export const updateProduct = (product) => async (dispatch, getState) => {
-
     try {
         dispatch({
             type: PRODUCT_UPDATE_REQUEST,
@@ -151,7 +157,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${userInfo.token}`,
             },
         };
@@ -160,14 +166,14 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 
         dispatch({
             type: PRODUCT_UPDATE_SUCCESS,
-            payload: data
+            payload: data,
         });
     } catch (error) {
         const message =
             error.response && error.response.data.message
                 ? error.response.data.message
                 : error.message;
-        if (message === 'Not authorized, token failed') {
+        if (message === "Not authorized, token failed") {
             dispatch();
         }
         dispatch({
@@ -176,8 +182,3 @@ export const updateProduct = (product) => async (dispatch, getState) => {
         });
     }
 };
-
-
-
-
-

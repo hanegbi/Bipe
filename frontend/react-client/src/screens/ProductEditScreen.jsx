@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
@@ -122,7 +121,7 @@ function ProductEditScreen({ match, history }) {
                             <Form.Label>Count In Stock</Form.Label>
                             <Form.Control
                                 type="number"
-                                placeholder="Enter countInStock"
+                                placeholder="Enter count in stock"
                                 value={countInStock}
                                 onChange={(e) => setCountInStock(e.target.value)}
                             ></Form.Control>

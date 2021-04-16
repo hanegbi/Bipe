@@ -34,12 +34,8 @@ const ProductListScreen = ({ history, match }) => {
             history.push("/login");
         }
 
-        if (successCreate) {
-            history.push(`/admin/product/${createdProduct._id}/edit`);
-        } else {
-            dispatch(listProducts());
-        }
-    }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct]);
+        dispatch(listProducts());
+    }, [dispatch, history, userInfo, successDelete]);
 
     const deleteHandler = (id) => {
         if (window.confirm("Are you sure?")) {
@@ -48,7 +44,7 @@ const ProductListScreen = ({ history, match }) => {
     };
 
     const createProductHandler = () => {
-        dispatch(createProduct());
+        history.push("/admin/product/create");
     };
 
     return (
