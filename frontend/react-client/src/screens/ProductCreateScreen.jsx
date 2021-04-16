@@ -4,6 +4,7 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
 import { createProduct } from "../actions/productActions";
+import { listUsers } from "../actions/userActions";
 
 function ProductCreateScreen({ location, history }) {
     const [name, setName] = useState("");
@@ -19,10 +20,13 @@ function ProductCreateScreen({ location, history }) {
     const productCreate = useSelector((state) => state.productCreate);
     const { product } = productCreate;
 
-    const redirect = location.search ? location.search.split("=")[1] : "/";
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
 
     useEffect(() => {
-        if (product) {
+        if (!userInfo || !userInfo.isAdmin) {
+            history.push("/login");
+        } else if (product) {
             history.push(`/product/${product._id}`);
         }
     }, [history, product]);
