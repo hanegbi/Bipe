@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -41,6 +41,10 @@ function App() {
                     <Route path="/admin/product/create" component={ProductCreateScreen} />
                     <Route path="/admin/orderlist" component={OrderListScreen} />
                     <Route path="/search/:category?/:keyword?" component={HomeScreen} />
+                    <Route
+                        path="/admin/graphs"
+                        render={() => (window.location = "http://localhost:4200")}
+                    />
                     <Route path="/" component={HomeScreen} exact />
                 </Container>
             </main>
