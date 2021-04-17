@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
-// import agg from "../selects/groupBy(users_avg_price).js"
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -9,7 +8,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
     const {
         orderItems,
         shippingAddress,
-        paymentMethod,
         itemsPrice,
         taxPrice,
         shippingPrice,
@@ -74,47 +72,27 @@ const getOrders = asyncHandler(async (req, res) => {
     res.json(orders);
 });
 
-
 // @desc    Get logged in user orders
 // @route   GET /api/orders/usersgraph
 // @access  Private
 const getUsersGraph = asyncHandler(async (req, res) => {
     const orders = await Order.aggregate([
         {
-          '$project': {
-            'totalPrice': 1, 
-            'shippingAddress.city': 1
-          }
-        }, {
-          '$group': {
-            '_id': '$shippingAddress.city', 
-            'avg_price': {
-              '$avg': '$totalPrice'
-            }
-          }
-        }
-      ])
+            $project: {
+                totalPrice: 1,
+                "shippingAddress.city": 1,
+            },
+        },
+        {
+            $group: {
+                _id: "$shippingAddress.city",
+                avg_price: {
+                    $avg: "$totalPrice",
+                },
+            },
+        },
+    ]);
     res.json(orders);
 });
 
 export { addOrderItems, getOrderById, getMyOrders, getOrders, getUsersGraph };
-
-// @desc    Update order to delivered
-// @route   GET /api/orders/:id/deliver
-// @access  Private/Admin
-// const updateOrderToDelivered = asyncHandler(async (req, res) => {
-//     const order = await Order.findById(req.params.id);
-
-//     if (order) {
-//         order.isDelivered = true;
-//         order.deliveredAt = Date.now();
-
-//         const updatedOrder = await order.save();
-
-//         res.json(updatedOrder);
-//     } else {
-//         res.status(404);
-//         throw new Error("Order not found");
-//     }
-// });
-

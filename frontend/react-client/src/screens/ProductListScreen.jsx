@@ -4,10 +4,10 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listProducts, deleteProduct, createProduct } from "../actions/productActions";
+import { listProducts, deleteProduct } from "../actions/productActions";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 
-const ProductListScreen = ({ history, match }) => {
+const ProductListScreen = ({ history }) => {
     const dispatch = useDispatch();
 
     const productList = useSelector((state) => state.productList);

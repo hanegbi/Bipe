@@ -4,9 +4,8 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
 import { createProduct } from "../actions/productActions";
-import { listUsers } from "../actions/userActions";
 
-function ProductCreateScreen({ location, history }) {
+function ProductCreateScreen({ history }) {
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
     const [image, setImage] = useState("");
