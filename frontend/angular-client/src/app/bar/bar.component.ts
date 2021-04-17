@@ -1,11 +1,10 @@
-import { Component, OnInit , Injectable, TestabilityRegistry} from '@angular/core';
+import { Component, OnInit, Injectable, TestabilityRegistry } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Subject } from "rxjs";
 import { map } from 'rxjs/operators';
 import * as d3 from 'd3';
 
-// Adopted from Basic barplot example on D3 Graph Gallery:
-// https://www.d3-graph-gallery.com/graph/barplot_basic.html
+
 @Component({
   selector: 'app-bar',
   templateUrl: './bar.component.html',
@@ -13,135 +12,104 @@ import * as d3 from 'd3';
 })
 
 export class BarComponent implements OnInit {
- 
-  public items =[];
+
+  public items = [];
   constructor(private http: HttpClient) {
     var header = {
       headers: new HttpHeaders()
-        .set('Authorization',  `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDNmMjhlZWM4NGQwM2Q3OGUzMTdlMCIsImlhdCI6MTYxODM0NDQ2MywiZXhwIjoxNjIwOTM2NDYzfQ.gzBafEv1o9-K5_oh_X2ddTVjig3SoYWx5AsFa_SeGSE`)
+        .set('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDNmMjhlZWM4NGQwM2Q3OGUzMTdlMCIsImlhdCI6MTYxODM0NDQ2MywiZXhwIjoxNjIwOTM2NDYzfQ.gzBafEv1o9-K5_oh_X2ddTVjig3SoYWx5AsFa_SeGSE`)
     }
-    
-    this.http.get('http://localhost:3000/api/orders/usersgraph', header ).toPromise().then(tests =>{
+
+    this.http.get('http://localhost:3000/api/orders/usersgraph', header).toPromise().then(tests => {
       // console.log(tests);
 
-      for(let key in tests){
-          
-          console.log(tests[key]._id);
-          var item ={
-            "Framework": `${tests[key]._id}`, "Stars": `${tests[key].Stars}`, "Released": "2014"
-          }
-          console.log(item);
-          this.items.push(item);
-          
+      for (let key in tests) {
+
+        console.log(tests[key]._id);
+        var item = {
+          "Framework": `${tests[key]._id}`, "Stars": `${tests[key].Stars}`, "Released": "2014"
+        }
+        console.log(item);
+        this.items.push(item);
+
       }
-      //console.log(this.items[2].Stars);
-      // const temp = tests.valueOf();
-      // console.log(temp);
-      // this.items.push(temp);
-      // console.log(this.items)
 
-          //this.test();
-    this.createSvg();
-    // console.log(this.items);
-    console.log(this.items);
-    this.drawBars(this.items);
+      this.createSvg();
+
+      console.log(this.items);
+      this.drawBars(this.items);
 
 
-    // Parse data from a CSV
-     //d3.csv("/assets/frameworks.csv").then(data => this.drawBars(this.data));
 
     })
-   
+
   }
 
-
-  // public test(){
-  //   var header = {
-  //     headers: new HttpHeaders()
-  //       .set('Authorization',  `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDNmMjhlZWM4NGQwM2Q3OGUzMTdlMCIsImlhdCI6MTYxODM0NDQ2MywiZXhwIjoxNjIwOTM2NDYzfQ.gzBafEv1o9-K5_oh_X2ddTVjig3SoYWx5AsFa_SeGSE`)
-  //   }
-  //   this.http.get('http://localhost:3000/api/orders/usersgraph', header ).subscribe(tests => {
-  //     console.log(tests);
-  //   })
-  // }
-
-
- 
-  
   private data = [
-    
-    {"Framework": `${this.items}`, "Stars": "166443", "Released": "2014"},
-    {"Framework": "React", "Stars": "150793", "Released": "2013"},
-    {"Framework": "Angular", "Stars": "62342", "Released": "2016"},
-    {"Framework": "Backbone", "Stars": "27647", "Released": "2010"},
-    {"Framework": "Eer", "Stars": "21471", "Released": "2021"},
-    {"Framework": "Eber", "Stars": "21471", "Released": "2020"},
-    {"Framework": "Ember", "Stars": "21471", "Released": "2012"},
-    {"Framework": "Nir", "Stars": "2144471", "Released": "2015"},
-    {"Framework": "Nir", "Stars": "2144471", "Released": "2015"},
-    {"Framework": "Nir", "Stars": "2144471", "Released": "2015"},
-    {"Framework": "Nir", "Stars": "2144471", "Released": "2015"},
+
+    { "Framework": `${this.items}`, "Stars": "166443", "Released": "2014" },
+    { "Framework": "React", "Stars": "150793", "Released": "2013" },
+    { "Framework": "Angular", "Stars": "62342", "Released": "2016" },
+    { "Framework": "Backbone", "Stars": "27647", "Released": "2010" },
+    { "Framework": "Eer", "Stars": "21471", "Released": "2021" },
+    { "Framework": "Eber", "Stars": "21471", "Released": "2020" },
+    { "Framework": "Ember", "Stars": "21471", "Released": "2012" },
+    { "Framework": "Nir", "Stars": "2144471", "Released": "2015" },
+    { "Framework": "Nir", "Stars": "2144471", "Released": "2015" },
+    { "Framework": "Nir", "Stars": "2144471", "Released": "2015" },
+    { "Framework": "Nir", "Stars": "2144471", "Released": "2015" },
   ];
   private svg;
   private margin = 50;
-  private width = 750 - (this.margin * 2);
-  private height = 400 - (this.margin * 2);
+  private width = 750 - (this.margin * 1);
+  private height = 400 - (this.margin * 1);
 
   ngOnInit(): void {
-    
-    // //this.test();
-    // this.createSvg();
-    // // console.log(this.items);
-    // this.drawBars(this.data);
 
-
-    // // Parse data from a CSV
-    //  d3.csv("/assets/frameworks.csv").then(data => this.drawBars(this.data));
-
-    // Fetch JSON from an external endpoint
-    // d3.json('https://api.jsonbin.io/b/5eee6a5397cb753b4d149343').then(data => this.drawBars(data));
   }
 
   private createSvg(): void {
     this.svg = d3.select("figure#bar")
-    .append("svg")
-    .attr("width", this.width + (this.margin * 2))
-    .attr("height", this.height + (this.margin * 2))
-    .append("g")
-    .attr("transform", "translate(" + this.margin + "," + this.margin + ")");
+      .append("svg")
+      .attr("width", this.width + (this.margin * 4))
+      .attr("height", this.height + (this.margin * 4))
+      .append("g")
+      .attr("transform", "translate(" + this.margin + "," + this.margin + ")");
   }
 
   private drawBars(data: any[]): void {
     // Add X axis
     const x = d3.scaleBand()
-    .range([0, this.width])
-    .domain(data.map(d => d.Framework))
-    .padding(0.2);
+      .range([0, this.width])
+      .domain(data.map(d => d.Framework))
+      .padding(0.3);
 
     this.svg.append("g")
-    .attr("transform", "translate(0," + this.height + ")")
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-    .attr("transform", "translate(-10,0)rotate(-45)")
-    .style("text-anchor", "end");
+      .attr("transform", "translate(0," + this.height + ")")
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .attr("transform", "translate(-10,50)rotate(-45)")
+      .style("font-size", "20");
 
     // Add Y axis
     const y = d3.scaleLinear()
-    .domain([0, 100])
-    .range([this.height, 0]);
+      .domain([0, 100])
+      .range([this.height, 0]);
 
     this.svg.append("g")
-    .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y));
 
-    // Create and fill the bars
+
     this.svg.selectAll("bars")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("x", d => x(d.Framework))
-    .attr("y", d => y(d.Stars))
-    .attr("width", x.bandwidth())
-    .attr("height", (d) => this.height - y(d.Stars))
-    .attr("fill", "#d04a35");
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", d => x(d.Framework))
+      .attr("y", d => y(d.Stars))
+      .attr("width", x.bandwidth())
+      .attr("height", (d) => this.height - y(d.Stars))
+      .attr("fill", "#0ff");
+
+
   }
 }
