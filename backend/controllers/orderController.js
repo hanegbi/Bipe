@@ -100,4 +100,16 @@ const getUsersGraph = asyncHandler(async (req, res) => {
     res.json(orders);
 });
 
-export { addOrderItems, getOrderById, getMyOrders, getOrders, getUsersGraph };
+const getOrdersGraph = asyncHandler(async (req, res) => {
+    const mapFunc = function() { emit(this.user, this.totalPrice); }
+    const reduceFunc = function(key, values){ return Array.sum(values); }
+    const orders = await Order.mapReduce({
+        map: mapFunc,
+        reduce: reduceFunc,
+        query: {user: {$exists: true}},
+        out: {inline:1}
+    });
+    res.json(orders);
+});
+
+export { addOrderItems, getOrderById, getMyOrders, getOrders, getUsersGraph, getOrdersGraph };
