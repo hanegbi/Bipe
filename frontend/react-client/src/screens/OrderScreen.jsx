@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import { getOrderDetails, deliverOrder } from '../actions/orderActions';
-import { ORDER_DELIVER_RESET } from '../constants/orderConstants';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import { getOrderDetails } from "../actions/orderActions";
 
-function OrderScreen({ match, history }) {
+function OrderScreen({ match }) {
     const orderId = match.params.id;
 
     const dispatch = useDispatch();
@@ -15,44 +14,29 @@ function OrderScreen({ match, history }) {
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, loading, error } = orderDetails;
 
-    const orderDeliver = useSelector((state) => state.orderDeliver);
-    const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
-
-    const userLogin = useSelector((state) => state.userLogin);
-    const { userInfo } = userLogin;
-
+    const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
     if (!loading) {
-        const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
-
         order.itemsPrice = addDecimals(
-            order.orderItems.reduce(
-                (acc, item) => acc + item.price * item.qty,
-                0
-            )
+            order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
         );
     }
 
     useEffect(() => {
-        if (!order || order._id !== orderId || successDeliver) {
-            dispatch({ type: ORDER_DELIVER_RESET });
+        if (!order || order._id !== orderId) {
             dispatch(getOrderDetails(orderId));
         }
-    }, [dispatch, order, orderId, successDeliver]);
-
-    const deliverHandler = () => {
-        dispatch(deliverOrder(order));
-    };
+    }, [dispatch, order, orderId]);
 
     return loading ? (
         <Loader />
     ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
     ) : (
         <>
             <h1>Order {order._id}</h1>
             <Row>
                 <Col md={8}>
-                    <ListGroup variant='flush'>
+                    <ListGroup variant="flush">
                         <ListGroup.Item>
                             <h2>Shipping</h2>
                             <p>
@@ -61,16 +45,12 @@ function OrderScreen({ match, history }) {
                             </p>
                             <p>
                                 <strong>Email: </strong>
-                                <a href={`mailto: ${order.user.email}`}>
-                                    {order.user.email}
-                                </a>
+                                <a href={`mailto: ${order.user.email}`}>{order.user.email}</a>
                             </p>
                             <p>
                                 <strong>Address: </strong>
-                                {order.shippingAddress.address},{' '}
-                                {order.shippingAddress.city},{' '}
-                                {order.shippingAddress.postalCode},{' '}
-                                {order.shippingAddress.country}
+                                {order.shippingAddress.address}, {order.shippingAddress.city},{" "}
+                                {order.shippingAddress.postalCode}, {order.shippingAddress.country}
                             </p>
                         </ListGroup.Item>
 
@@ -79,7 +59,7 @@ function OrderScreen({ match, history }) {
                             {order.orderItems.length === 0 ? (
                                 <Message>Order is empty</Message>
                             ) : (
-                                <ListGroup variant='flush'>
+                                <ListGroup variant="flush">
                                     {order.orderItems.map((item, index) => (
                                         <ListGroup.Item key={index}>
                                             <Row>
@@ -92,15 +72,13 @@ function OrderScreen({ match, history }) {
                                                     />
                                                 </Col>
                                                 <Col>
-                                                    <Link
-                                                        to={`/product/${item.product}`}
-                                                    >
+                                                    <Link to={`/product/${item.product}`}>
                                                         {item.name}
                                                     </Link>
                                                 </Col>
                                                 <Col md={4}>
-                                                    {item.qty} x ${item.price} =
-                                                    ${item.qty * item.price}
+                                                    {item.qty} x ${item.price} = $
+                                                    {addDecimals(item.qty * item.price)}
                                                 </Col>
                                             </Row>
                                         </ListGroup.Item>
@@ -113,7 +91,7 @@ function OrderScreen({ match, history }) {
 
                 <Col md={4}>
                     <Card>
-                        <ListGroup variant='flush'>
+                        <ListGroup variant="flush">
                             <ListGroup.Item>
                                 <h2>Order Summary</h2>
                             </ListGroup.Item>
@@ -145,21 +123,6 @@ function OrderScreen({ match, history }) {
                                     <Col>${order.totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
-                            {loadingDeliver && <Loader />}
-                            {userInfo &&
-                                userInfo.isAdmin &&
-                                order.isPaid &&
-                                !order.isDelivered && (
-                                    <ListGroup.Item>
-                                        <Button
-                                            type='button'
-                                            className='btn btn-block'
-                                            onClick={deliverHandler}
-                                        >
-                                            Mark As Delivered
-                                        </Button>
-                                    </ListGroup.Item>
-                                )}
                         </ListGroup>
                     </Card>
                 </Col>

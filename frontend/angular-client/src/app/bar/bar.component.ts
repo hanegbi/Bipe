@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Injectable, TestabilityRegistry} from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
+import { Subject } from "rxjs";
+import { map } from 'rxjs/operators';
 import * as d3 from 'd3';
 
 // Adopted from Basic barplot example on D3 Graph Gallery:
@@ -8,15 +11,75 @@ import * as d3 from 'd3';
   templateUrl: './bar.component.html',
   styleUrls: ['./bar.component.scss']
 })
+
 export class BarComponent implements OnInit {
+ 
+  public items =[];
+  constructor(private http: HttpClient) {
+    var header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDNmMjhlZWM4NGQwM2Q3OGUzMTdlMCIsImlhdCI6MTYxODM0NDQ2MywiZXhwIjoxNjIwOTM2NDYzfQ.gzBafEv1o9-K5_oh_X2ddTVjig3SoYWx5AsFa_SeGSE`)
+    }
+    
+    this.http.get('http://localhost:3000/api/orders/usersgraph', header ).toPromise().then(tests =>{
+      // console.log(tests);
+
+      for(let key in tests){
+          
+          console.log(tests[key]._id);
+          var item ={
+            "Framework": `${tests[key]._id}`, "Stars": `${tests[key].Stars}`, "Released": "2014"
+          }
+          console.log(item);
+          this.items.push(item);
+          
+      }
+      //console.log(this.items[2].Stars);
+      // const temp = tests.valueOf();
+      // console.log(temp);
+      // this.items.push(temp);
+      // console.log(this.items)
+
+          //this.test();
+    this.createSvg();
+    // console.log(this.items);
+    console.log(this.items);
+    this.drawBars(this.items);
+
+
+    // Parse data from a CSV
+     //d3.csv("/assets/frameworks.csv").then(data => this.drawBars(this.data));
+
+    })
+   
+  }
+
+
+  // public test(){
+  //   var header = {
+  //     headers: new HttpHeaders()
+  //       .set('Authorization',  `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDNmMjhlZWM4NGQwM2Q3OGUzMTdlMCIsImlhdCI6MTYxODM0NDQ2MywiZXhwIjoxNjIwOTM2NDYzfQ.gzBafEv1o9-K5_oh_X2ddTVjig3SoYWx5AsFa_SeGSE`)
+  //   }
+  //   this.http.get('http://localhost:3000/api/orders/usersgraph', header ).subscribe(tests => {
+  //     console.log(tests);
+  //   })
+  // }
+
+
+ 
+  
   private data = [
-    {"Framework": "Vue", "Stars": "166443", "Released": "2014"},
+    
+    {"Framework": `${this.items}`, "Stars": "166443", "Released": "2014"},
     {"Framework": "React", "Stars": "150793", "Released": "2013"},
     {"Framework": "Angular", "Stars": "62342", "Released": "2016"},
     {"Framework": "Backbone", "Stars": "27647", "Released": "2010"},
     {"Framework": "Eer", "Stars": "21471", "Released": "2021"},
     {"Framework": "Eber", "Stars": "21471", "Released": "2020"},
     {"Framework": "Ember", "Stars": "21471", "Released": "2012"},
+    {"Framework": "Nir", "Stars": "2144471", "Released": "2015"},
+    {"Framework": "Nir", "Stars": "2144471", "Released": "2015"},
+    {"Framework": "Nir", "Stars": "2144471", "Released": "2015"},
     {"Framework": "Nir", "Stars": "2144471", "Released": "2015"},
   ];
   private svg;
@@ -25,11 +88,15 @@ export class BarComponent implements OnInit {
   private height = 400 - (this.margin * 2);
 
   ngOnInit(): void {
-    this.createSvg();
-    this.drawBars(this.data);
+    
+    // //this.test();
+    // this.createSvg();
+    // // console.log(this.items);
+    // this.drawBars(this.data);
 
-    // Parse data from a CSV
-    // d3.csv("/assets/frameworks.csv").then(data => this.drawBars(data));
+
+    // // Parse data from a CSV
+    //  d3.csv("/assets/frameworks.csv").then(data => this.drawBars(this.data));
 
     // Fetch JSON from an external endpoint
     // d3.json('https://api.jsonbin.io/b/5eee6a5397cb753b4d149343').then(data => this.drawBars(data));
@@ -60,7 +127,7 @@ export class BarComponent implements OnInit {
 
     // Add Y axis
     const y = d3.scaleLinear()
-    .domain([0, 200000])
+    .domain([0, 100])
     .range([this.height, 0]);
 
     this.svg.append("g")
