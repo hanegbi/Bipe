@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import * as d3 from 'd3';
 
 
+
 @Component({
   selector: 'app-bar',
   templateUrl: './bar.component.html',
@@ -14,6 +15,7 @@ import * as d3 from 'd3';
 export class BarComponent implements OnInit {
 
   public items = [];
+
   constructor(private http: HttpClient) {
     var header = {
       headers: new HttpHeaders()
@@ -44,6 +46,9 @@ export class BarComponent implements OnInit {
     })
 
   }
+
+
+
 
   private data = [
 
