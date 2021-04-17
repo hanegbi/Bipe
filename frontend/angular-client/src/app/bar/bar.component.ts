@@ -23,7 +23,6 @@ export class BarComponent implements OnInit {
     }
 
     this.http.get('http://localhost:3000/api/orders/usersgraph', header).toPromise().then(tests => {
-      // console.log(tests);
 
       for (let key in tests) {
 
@@ -37,33 +36,11 @@ export class BarComponent implements OnInit {
       }
 
       this.createSvg();
-
-      console.log(this.items);
       this.drawBars(this.items);
-
-
-
     })
 
   }
 
-
-
-
-  private data = [
-
-    { "Framework": `${this.items}`, "Stars": "166443", "Released": "2014" },
-    { "Framework": "React", "Stars": "150793", "Released": "2013" },
-    { "Framework": "Angular", "Stars": "62342", "Released": "2016" },
-    { "Framework": "Backbone", "Stars": "27647", "Released": "2010" },
-    { "Framework": "Eer", "Stars": "21471", "Released": "2021" },
-    { "Framework": "Eber", "Stars": "21471", "Released": "2020" },
-    { "Framework": "Ember", "Stars": "21471", "Released": "2012" },
-    { "Framework": "Nir", "Stars": "2144471", "Released": "2015" },
-    { "Framework": "Nir", "Stars": "2144471", "Released": "2015" },
-    { "Framework": "Nir", "Stars": "2144471", "Released": "2015" },
-    { "Framework": "Nir", "Stars": "2144471", "Released": "2015" },
-  ];
   private svg;
   private margin = 50;
   private width = 750 - (this.margin * 1);
@@ -114,7 +91,6 @@ export class BarComponent implements OnInit {
       .attr("width", x.bandwidth())
       .attr("height", (d) => this.height - y(d.Stars))
       .attr("fill", "#0ff");
-
 
   }
 }
