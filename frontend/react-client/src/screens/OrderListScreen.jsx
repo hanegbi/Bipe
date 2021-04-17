@@ -35,9 +35,9 @@ const OrderListScreen = ({ history }) => {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>USER</th>
-                            <th>DATE</th>
-                            <th>TOTAL</th>
+                            <th>User</th>
+                            <th>Date</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>

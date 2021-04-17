@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -17,6 +17,7 @@ import UserListScreen from "./screens/UserListScreen.jsx";
 import UserEditScreen from "./screens/UserEditScreen.jsx";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
+import ProductCreateScreen from "./screens/ProductCreateScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 
 function App() {
@@ -37,8 +38,13 @@ function App() {
                     <Route path="/admin/productlist" component={ProductListScreen} />
                     <Route path="/admin/users/:id/edit" component={UserEditScreen} />
                     <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
+                    <Route path="/admin/product/create" component={ProductCreateScreen} />
                     <Route path="/admin/orderlist" component={OrderListScreen} />
                     <Route path="/search/:category?/:keyword?" component={HomeScreen} />
+                    <Route
+                        path="/admin/graphs"
+                        render={() => (window.location = "http://localhost:4200")}
+                    />
                     <Route path="/" component={HomeScreen} exact />
                 </Container>
             </main>

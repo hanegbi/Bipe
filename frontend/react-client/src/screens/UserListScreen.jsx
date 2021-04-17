@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button } from "react-bootstrap";
+import { Form, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listUsers, deleteUser } from "../actions/userActions";
 
 const UserListScreen = ({ history }) => {
-    // const [name, setName] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [regularUsers, setRegularUsers] = useState(true);
-    // const [adminUsers, setAdminUsers] = useState(true);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [admins, setAdmins] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -31,6 +30,11 @@ const UserListScreen = ({ history }) => {
         }
     }, [dispatch, history, successDelete, userInfo]);
 
+    const submitSearchUsersHandler = (e) => {
+        e.preventDefault();
+        dispatch(listUsers(name, email, admins));
+    };
+
     const deleteHandler = (id) => {
         if (window.confirm("Are you sure?")) {
             dispatch(deleteUser(id));
@@ -40,8 +44,8 @@ const UserListScreen = ({ history }) => {
     return (
         <>
             <h1>Users</h1>
-            {/* 
-            <Form inline>
+
+            <Form inline onSubmit={submitSearchUsersHandler}>
                 <Form.Group controlId="name">
                     <Form.Control
                         size="sm"
@@ -57,20 +61,20 @@ const UserListScreen = ({ history }) => {
                     <Form.Control
                         size="sm"
                         placeholder="Email"
-                        type="email"
+                        type="text"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="mb-2 mr-sm-2"
                     ></Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId="isRegularUser">
+                <Form.Group controlId="isAdminUser">
                     <Form.Check
                         size="sm"
                         type="checkbox"
-                        checked={regularUsers}
-                        label="Users"
-                        onChange={(e) => setRegularUsers(e.target.value)}
+                        checked={admins}
+                        label="Admins"
+                        onChange={(e) => setAdmins(e.target.checked)}
                         className="mb-2 mr-sm-2"
                     ></Form.Check>
                 </Form.Group>
@@ -78,7 +82,7 @@ const UserListScreen = ({ history }) => {
                 <Button type="submit" className="mb-2" size="sm">
                     Search
                 </Button>
-            </Form> */}
+            </Form>
 
             {loading ? (
                 <Loader />
