@@ -1,19 +1,16 @@
-import jwt from 'jsonwebtoken';
-import asyncHandler from 'express-async-handler';
-import User from '../models/UserModel.js';
+import jwt from "jsonwebtoken";
+import asyncHandler from "express-async-handler";
+import User from "../models/UserModel.js";
 
 const protect = asyncHandler(async (req, res, next) => {
     let token;
 
-    if (
-        req.headers.authorization &&
-        req.headers.authorization.startsWith('Bearer')
-    ) {
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
         try {
-            token = req.headers.authorization.split(' ')[1];
+            token = req.headers.authorization.split(" ")[1];
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-            req.user = await User.findById(decoded.id).select('-password');
+            req.user = await User.findById(decoded.id).select("-password");
 
             console.log(decoded);
 
@@ -22,12 +19,12 @@ const protect = asyncHandler(async (req, res, next) => {
             console.log(token);
             console.error(error);
             res.status(401);
-            throw new Error('Not authorized, toked failed');
+            throw new Error("Not authorized, toked failed");
         }
     }
     if (!token) {
         res.status(401);
-        throw new Error('Not authorozied , no token');
+        throw new Error("Not authorozied , no token");
     }
 });
 
@@ -36,7 +33,7 @@ const admin = (req, res, next) => {
         next();
     } else {
         res.status(401);
-        throw new Error('Not autorized as an admin');
+        throw new Error("Not autorized as an admin");
     }
 };
 
