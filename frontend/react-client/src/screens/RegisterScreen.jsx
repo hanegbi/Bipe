@@ -45,9 +45,6 @@ function RegisterScreen({ location, history }) {
 
     const handleHomeAddressChange = (event) => {
         const { name, value } = event.target;
-        console.log(event);
-        console.log(name);
-        console.log(value);
         setHomeAddress((prevValue) => ({ ...prevValue, [name]: value }));
     };
 
