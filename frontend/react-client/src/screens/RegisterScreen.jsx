@@ -14,6 +14,13 @@ function RegisterScreen({ location, history }) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState(null);
 
+    const [homeAddress, setHomeAddress] = useState({
+        street: "",
+        city: "",
+        postalCode: "",
+        country: "",
+    });
+
     const dispatch = useDispatch();
 
     const userRegister = useSelector((state) => state.userRegister);
@@ -32,8 +39,13 @@ function RegisterScreen({ location, history }) {
         if (password !== confirmPassword) {
             setMessage("Passwords do not match");
         } else {
-            dispatch(register(name, email, password));
+            dispatch(register(name, email, password, homeAddress));
         }
+    };
+
+    const handleHomeAddressChange = (event) => {
+        const { name, value } = event.target;
+        setHomeAddress((prevValue) => ({ ...prevValue, [name]: value }));
     };
 
     return (
@@ -46,7 +58,7 @@ function RegisterScreen({ location, history }) {
                 <Form.Group controlId="name">
                     <Form.Label>Name</Form.Label>
                     <Form.Control
-                        type="name"
+                        type="text"
                         placeholder="Enter name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -80,6 +92,48 @@ function RegisterScreen({ location, history }) {
                         placeholder="Confirm password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
+                    ></Form.Control>
+                </Form.Group>
+
+                <h2>Home Address</h2>
+
+                <Form.Group controlId="homeStreet">
+                    <Form.Label>Street</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter address"
+                        value={homeAddress.street}
+                        onChange={handleHomeAddressChange}
+                    ></Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="homeCity">
+                    <Form.Label>City</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter city"
+                        value={homeAddress.city}
+                        onChange={handleHomeAddressChange}
+                    ></Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="homeCountry">
+                    <Form.Label>Country</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter country"
+                        value={homeAddress.country}
+                        onChange={handleHomeAddressChange}
+                    ></Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="homePostalCode">
+                    <Form.Label>Postal Code</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter postal code"
+                        value={homeAddress.postalCode}
+                        onChange={handleHomeAddressChange}
                     ></Form.Control>
                 </Form.Group>
 
