@@ -1,38 +1,79 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
 import { saveShippingAddress } from "../actions/cartActions";
 
 function ShippingScreen({ history }) {
     const cart = useSelector((state) => state.cart);
-    const { shippingAddress } = cart;
+    const { shippingAddress: prevAddress } = cart;
 
-    const [address, setAddress] = useState(shippingAddress.address);
-    const [city, setCity] = useState(shippingAddress.city);
-    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
-    const [country, setCountry] = useState(shippingAddress.country);
+    const [shippingAddress, setShippingAddress] = useState({
+        street: prevAddress.address,
+        city: prevAddress.city,
+        postalCode: prevAddress.postalCode,
+        country: prevAddress.country,
+    });
+
+    const handleShippingAddressChange = (event) => {
+        const { name, value } = event.target;
+        setShippingAddress((prevValue) => ({ ...prevValue, [name]: value }));
+    };
+
+    const userLogin = useSelector((state) => state.userLogin);
+    const { homeAddress, workAddress } = userLogin.userInfo;
 
     const dispatch = useDispatch();
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(saveShippingAddress({ address, city, postalCode, country }));
+        dispatch(saveShippingAddress(shippingAddress));
         history.push("/placeorder");
     };
 
     return (
         <FormContainer>
             <h1>Shipping</h1>
+            <Row>
+                {homeAddress && (
+                    <Col>
+                        <Card className="mb-2" onClick={(e) => setShippingAddress(homeAddress)}>
+                            <Card.Header>Home Address</Card.Header>
+                            <Card.Body name="home">
+                                <Card.Title>{homeAddress.street}</Card.Title>
+                                <Card.Text>
+                                    {homeAddress.city}, {homeAddress.country}
+                                </Card.Text>
+                                <Card.Text>Postal Code: {homeAddress.postalCode}</Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                )}
+                {workAddress && (
+                    <Col>
+                        <Card className="mb-2" onClick={(e) => setShippingAddress(workAddress)}>
+                            <Card.Header>Work Address</Card.Header>
+                            <Card.Body>
+                                <Card.Title>{workAddress.street}</Card.Title>
+                                <Card.Text>
+                                    {workAddress.city}, {workAddress.country}
+                                </Card.Text>
+                                <Card.Text>Postal Code: {workAddress.postalCode}</Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                )}
+            </Row>
             <Form onSubmit={submitHandler}>
-                <Form.Group controlId="address">
-                    <Form.Label>Address</Form.Label>
+                <Form.Group controlId="street">
+                    <Form.Label>Street</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Enter address"
-                        value={address}
+                        placeholder="Enter street"
+                        value={shippingAddress.street}
                         required
-                        onChange={(e) => setAddress(e.target.value)}
+                        name="street"
+                        onChange={handleShippingAddressChange}
                     ></Form.Control>
                 </Form.Group>
 
@@ -41,20 +82,10 @@ function ShippingScreen({ history }) {
                     <Form.Control
                         type="text"
                         placeholder="Enter city"
-                        value={city}
+                        value={shippingAddress.city}
                         required
-                        onChange={(e) => setCity(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-
-                <Form.Group controlId="postalCode">
-                    <Form.Label>Postal Code</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter postal code"
-                        value={postalCode}
-                        required
-                        onChange={(e) => setPostalCode(e.target.value)}
+                        name="city"
+                        onChange={handleShippingAddressChange}
                     ></Form.Control>
                 </Form.Group>
 
@@ -63,9 +94,20 @@ function ShippingScreen({ history }) {
                     <Form.Control
                         type="text"
                         placeholder="Enter country"
-                        value={country}
+                        value={shippingAddress.country}
                         required
-                        onChange={(e) => setCountry(e.target.value)}
+                        onChange={handleShippingAddressChange}
+                    ></Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="postalCode">
+                    <Form.Label>Postal Code</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter postal code"
+                        value={shippingAddress.postalCode}
+                        required
+                        onChange={handleShippingAddressChange}
                     ></Form.Control>
                 </Form.Group>
 
