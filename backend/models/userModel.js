@@ -6,7 +6,12 @@ const userSchema = new Schema({
     name: String,
     email: String,
     password: String,
-    address: String,
+    homeAddress: {
+        address: { type: String, required: true },
+        city: { type: String, required: true },
+        postalCode: { type: String, required: true },
+        country: { type: String, required: true },
+    },
     hasGroup: Boolean,
     household: { type: Schema.Types.ObjectId, ref: "Household" },
     isAdmin: Boolean,
