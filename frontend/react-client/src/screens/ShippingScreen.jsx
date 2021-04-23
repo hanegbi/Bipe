@@ -36,8 +36,12 @@ function ShippingScreen({ history }) {
             <h1>Shipping</h1>
             <Row>
                 {homeAddress && (
-                    <Col>
-                        <Card className="mb-2" onClick={(e) => setShippingAddress(homeAddress)}>
+                    <Col className="pr-1">
+                        <Card
+                            style={{ cursor: "pointer" }}
+                            className="mb-2"
+                            onClick={(e) => setShippingAddress(homeAddress)}
+                        >
                             <Card.Header>Home Address</Card.Header>
                             <Card.Body name="home">
                                 <Card.Title>{homeAddress.street}</Card.Title>
@@ -50,8 +54,12 @@ function ShippingScreen({ history }) {
                     </Col>
                 )}
                 {workAddress && (
-                    <Col>
-                        <Card className="mb-2" onClick={(e) => setShippingAddress(workAddress)}>
+                    <Col className="pl-1">
+                        <Card
+                            style={{ cursor: "pointer" }}
+                            className="mb-2"
+                            onClick={(e) => setShippingAddress(workAddress)}
+                        >
                             <Card.Header>Work Address</Card.Header>
                             <Card.Body>
                                 <Card.Title>{workAddress.street}</Card.Title>
