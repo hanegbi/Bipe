@@ -12,6 +12,12 @@ const userSchema = new Schema({
         postalCode: { type: String, required: true },
         country: { type: String, required: true },
     },
+    workAddress: {
+        street: { type: String, required: true },
+        city: { type: String, required: true },
+        postalCode: { type: String, required: true },
+        country: { type: String, required: true },
+    },
     hasGroup: Boolean,
     household: { type: Schema.Types.ObjectId, ref: "Household" },
     isAdmin: Boolean,

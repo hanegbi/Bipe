@@ -21,7 +21,7 @@ function ShippingScreen({ history }) {
     };
 
     const userLogin = useSelector((state) => state.userLogin);
-    const { homeAddress } = userLogin.userInfo;
+    const { homeAddress, workAddress } = userLogin.userInfo;
 
     const dispatch = useDispatch();
 
@@ -46,34 +46,42 @@ function ShippingScreen({ history }) {
         <FormContainer>
             <h1>Shipping</h1>
             <Row>
-                <Col>
-                    <Card
-                        name="home"
-                        className="mb-2"
-                        onClick={(e) => setShippingAddress(homeAddress)}
-                    >
-                        <Card.Header>Home Address</Card.Header>
-                        <Card.Body name="home">
-                            <Card.Title>{homeAddress.street}</Card.Title>
-                            <Card.Text>
-                                {homeAddress.city}, {homeAddress.country}
-                            </Card.Text>
-                            <Card.Text>Postal Code: {homeAddress.postalCode}</Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col>
-                    <Card className="mb-2" name="work" onClick={changeAddress}>
-                        <Card.Header>Work Address</Card.Header>
-                        <Card.Body>
-                            <Card.Title>{homeAddress.street}</Card.Title>
-                            <Card.Text>
-                                {homeAddress.city}, {homeAddress.country}
-                            </Card.Text>
-                            <Card.Text>Postal Code: {homeAddress.postalCode}</Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
+                {homeAddress && (
+                    <Col>
+                        <Card
+                            name="home"
+                            className="mb-2"
+                            onClick={(e) => setShippingAddress(homeAddress)}
+                        >
+                            <Card.Header>Home Address</Card.Header>
+                            <Card.Body name="home">
+                                <Card.Title>{homeAddress.street}</Card.Title>
+                                <Card.Text>
+                                    {homeAddress.city}, {homeAddress.country}
+                                </Card.Text>
+                                <Card.Text>Postal Code: {homeAddress.postalCode}</Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                )}
+                {workAddress && (
+                    <Col>
+                        <Card
+                            className="mb-2"
+                            name="work"
+                            onClick={(e) => setShippingAddress(workAddress)}
+                        >
+                            <Card.Header>Work Address</Card.Header>
+                            <Card.Body>
+                                <Card.Title>{workAddress.street}</Card.Title>
+                                <Card.Text>
+                                    {workAddress.city}, {workAddress.country}
+                                </Card.Text>
+                                <Card.Text>Postal Code: {workAddress.postalCode}</Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                )}
             </Row>
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId="street">

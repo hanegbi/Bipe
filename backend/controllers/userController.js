@@ -16,6 +16,7 @@ const authUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             homeAddress: user.homeAddress,
+            workAddress: user.workAddress,
             hasGroup: user.hasGroup,
             household: user.household,
             isAdmin: user.isAdmin,
@@ -31,7 +32,7 @@ const authUser = asyncHandler(async (req, res) => {
 //@route     POST  /api/users
 //@access    public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password, homeAddress } = req.body;
+    const { name, email, password, homeAddress, workAddress } = req.body;
 
     const userExists = await User.findOne({ email });
 
@@ -45,6 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
         email,
         password,
         homeAddress,
+        workAddress,
     });
 
     if (user) {
@@ -53,6 +55,7 @@ const registerUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             homeAddress: user.homeAddress,
+            workAddress: user.workAddress,
             hasGroup: user.hasGroup,
             household: user.household,
             isAdmin: user.isAdmin,
@@ -76,6 +79,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             homeAddress: user.homeAddress,
+            workAddress: user.workAddress,
             hasGroup: user.hasGroup,
             household: user.household,
             isAdmin: user.isAdmin,
