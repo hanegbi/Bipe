@@ -45,6 +45,9 @@ function RegisterScreen({ location, history }) {
 
     const handleHomeAddressChange = (event) => {
         const { name, value } = event.target;
+        console.log(event);
+        console.log(name);
+        console.log(value);
         setHomeAddress((prevValue) => ({ ...prevValue, [name]: value }));
     };
 
@@ -103,6 +106,7 @@ function RegisterScreen({ location, history }) {
                         type="text"
                         placeholder="Enter address"
                         value={homeAddress.street}
+                        name="street"
                         onChange={handleHomeAddressChange}
                     ></Form.Control>
                 </Form.Group>
@@ -113,6 +117,7 @@ function RegisterScreen({ location, history }) {
                         type="text"
                         placeholder="Enter city"
                         value={homeAddress.city}
+                        name="city"
                         onChange={handleHomeAddressChange}
                     ></Form.Control>
                 </Form.Group>
@@ -123,6 +128,7 @@ function RegisterScreen({ location, history }) {
                         type="text"
                         placeholder="Enter country"
                         value={homeAddress.country}
+                        name="country"
                         onChange={handleHomeAddressChange}
                     ></Form.Control>
                 </Form.Group>
@@ -133,6 +139,7 @@ function RegisterScreen({ location, history }) {
                         type="text"
                         placeholder="Enter postal code"
                         value={homeAddress.postalCode}
+                        name="postalCode"
                         onChange={handleHomeAddressChange}
                     ></Form.Control>
                 </Form.Group>
