@@ -25,17 +25,6 @@ function ShippingScreen({ history }) {
 
     const dispatch = useDispatch();
 
-    const changeAddress = (event) => {
-        console.log(event.target);
-        if (event.target.name === "home") {
-            console.log("home");
-            setShippingAddress(() => homeAddress);
-        } else if (event.name === "work") {
-            console.log("work");
-            setShippingAddress(() => homeAddress);
-        }
-    };
-
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(saveShippingAddress(shippingAddress));
@@ -48,11 +37,7 @@ function ShippingScreen({ history }) {
             <Row>
                 {homeAddress && (
                     <Col>
-                        <Card
-                            name="home"
-                            className="mb-2"
-                            onClick={(e) => setShippingAddress(homeAddress)}
-                        >
+                        <Card className="mb-2" onClick={(e) => setShippingAddress(homeAddress)}>
                             <Card.Header>Home Address</Card.Header>
                             <Card.Body name="home">
                                 <Card.Title>{homeAddress.street}</Card.Title>
@@ -66,11 +51,7 @@ function ShippingScreen({ history }) {
                 )}
                 {workAddress && (
                     <Col>
-                        <Card
-                            className="mb-2"
-                            name="work"
-                            onClick={(e) => setShippingAddress(workAddress)}
-                        >
+                        <Card className="mb-2" onClick={(e) => setShippingAddress(workAddress)}>
                             <Card.Header>Work Address</Card.Header>
                             <Card.Body>
                                 <Card.Title>{workAddress.street}</Card.Title>
