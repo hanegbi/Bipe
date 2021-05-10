@@ -179,16 +179,14 @@ function ProfileScreen({ history }) {
                     <Table striped bordered hover responsive className="table-sm">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>DATE</th>
-                                <th>TOTAL</th>
+                                <th>Date</th>
+                                <th>Total</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {orders.map((order) => (
                                 <tr key={order._id}>
-                                    <td>{order._id}</td>
                                     <td>{order.createdAt.substring(0, 10)}</td>
                                     <td>{order.totalPrice}</td>
                                     <td>
