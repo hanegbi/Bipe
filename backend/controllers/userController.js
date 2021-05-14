@@ -2,14 +2,15 @@ import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateToken.js'
 import User from '../models/UserModel.js'
 import nodemailer from 'nodemailer'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'bipeproject@gmail.com',
-        // user: 'process.env.GMAIL_USER',
-        pass: '123123!A',
-        // pass: 'process.env.GMAIL_PASS',
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
     },
 })
 
@@ -25,8 +26,10 @@ const authUser = asyncHandler(async (req, res) => {
     //     res.status(401)
     //     throw new Error('User is not verified, please check your email')
     // }
+    const isVerified = user.isVerified === true
+    const isPasswordMatch = await user.matchPassword(password)
 
-    if (user && (await user.matchPassword(password))) {
+    if (isVerified && isPasswordMatch) {
         res.json({
             _id: user._id,
             name: user.name,
@@ -49,8 +52,7 @@ const authUser = asyncHandler(async (req, res) => {
 //@route     POST  /api/users
 //@access    public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password, homeAddress, workAddress, isVerified } =
-        req.body
+    const { name, email, password, homeAddress, workAddress } = req.body
 
     const userExists = await User.findOne({ email })
 
@@ -89,7 +91,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     try {
-        const url = `http://localhost3000/verification/${user._id}`
+        const url = `http://localhost:5000/api/users/verification/${user._id}`
         await transporter.sendMail({
             to: user.email,
             subject: 'Bipe - Email Validation',
@@ -104,31 +106,21 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 })
 
-//@desc      Get user profile
-//@route     GET /api/users/profile
-//@access    Private
+//@desc      Verify user profile
+//@route     GET /api/users/verification
+//@access    public
 const verifyUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id)
-    if (user) {
-        user.isVerified = true
-        res.json({ message: 'User is verified' })
-    } else {
-        res.status(404)
-        throw new Error('User not found')
-    }
+    const { id: userId } = req.params
+    const redirectUrl = `http://localhost:3000/verified/${userId}`
+    try {
+        const updateField = { $set: { isVerified: true } }
+        await User.findByIdAndUpdate(userId, updateField)
 
-    // const user = await User.findOne({
-    //     token: req.params.token,
-    // }).then((user) => {
-    //     if (!user) {
-    //         res.status(404)
-    //         throw new Error('User Not found')
-    //     }
-    //     const updatedUser = await user.save()
-    //     res.json({
-    //         isVerified: true,
-    //     })
-    // })
+        res.redirect(`${redirectUrl}/true`)
+    } catch (error) {
+        console.log(error)
+        res.redirect(`${redirectUrl}/false`)
+    }
 })
 
 //@desc      Get user profile
