@@ -39,6 +39,7 @@
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "mongoose": "^5.11.10",
+    "nodemailer": "^6.6.0",
     "puppeteer": "^8.0.0",
     "react-bootstrap": "^1.5.2",
     "socket.io": "^4.0.1",

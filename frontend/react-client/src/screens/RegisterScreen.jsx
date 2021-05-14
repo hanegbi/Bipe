@@ -37,7 +37,7 @@ function RegisterScreen({ location, history }) {
 
     useEffect(() => {
         if (userInfo) {
-            history.push(redirect);
+            history.push('/verification');
         }
     }, [history, userInfo, redirect]);
 
