@@ -14,7 +14,7 @@ connectDB();
  * @example npm run data:import
  */
 
-const cities = [1180];
+const cities = [1180, 378];
 const productByBarcode = {};
 
 const importData = async () => {
@@ -25,12 +25,13 @@ const importData = async () => {
 
     for (let cityId of cities) {
         try {
+            console.log("current city: ", cityId);
             const { data: stores } = await axios.post("https://api.superget.co.il/", null, {
                 params: {
-                    api_key: "80e1f6c1d63013ef2697cf0b7f62fef95b9ca118",
+                    api_key: "cce0c9208ec7c102d23e7823c50ecef98800f70e",
                     action: "GetStoresByCityID",
                     city_id: cityId,
-                    limit: 1,
+                    limit: 10,
                 },
             });
 
@@ -42,10 +43,10 @@ const importData = async () => {
                         null,
                         {
                             params: {
-                                api_key: "80e1f6c1d63013ef2697cf0b7f62fef95b9ca118",
+                                api_key: "cce0c9208ec7c102d23e7823c50ecef98800f70e",
                                 action: "GetPrice",
                                 store_id: store.store_id,
-                                limit: 3,
+                                limit: 100,
                             },
                         }
                     );
@@ -103,7 +104,6 @@ const importData = async () => {
                         }
                         newProduct.category = "non";
                         productByBarcode[newProduct.barcode] = newProduct;
-                        console.log(productByBarcode);
                     }
                 } catch (error) {
                     console.error(error);
@@ -111,9 +111,6 @@ const importData = async () => {
                     process.exit(1);
                 }
             }
-
-            console.log("Data Imported!");
-            process.exit(0);
         } catch (error) {
             console.error(error);
             console.error("failed at GetStoresByCityID");
@@ -121,10 +118,12 @@ const importData = async () => {
         }
     }
     console.log("start insert");
-    let finalProducts = [...productByBarcode.values()];
-    console.log(finalProducts);
+
+    let finalProducts = Object.values(productByBarcode);
     await Product.insertMany(finalProducts);
-    console.log("finish insert");
+
+    console.log("Data Imported!");
+    process.exit(0);
 };
 
 if (process.argv[2] === "-d") {
