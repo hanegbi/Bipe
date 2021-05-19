@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
     name: String,
+    barcode: String,
     image: String,
     category: String,
     countInStock: {
@@ -21,6 +22,7 @@ const productSchema = new Schema({
                 },
             ],
             minPrice: Number,
+            branchId: String,
         },
     ],
 });
@@ -28,3 +30,6 @@ const productSchema = new Schema({
 const Product = mongoose.model("Product", productSchema);
 
 export default Product;
+
+// GetStoresByCityID(cityID)
+// GetPrice(storeID)
