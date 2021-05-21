@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
     name: String,
-    price: Number,
+    barcode: String,
     image: String,
     category: String,
     countInStock: {
@@ -12,8 +12,24 @@ const productSchema = new Schema({
         default: 0,
     },
     description: String,
-})
+    locations: [
+        {
+            cityId: String,
+            branches: [
+                {
+                    id: String,
+                    price: Number,
+                },
+            ],
+            minPrice: Number,
+            branchId: String,
+        },
+    ],
+});
 
-const Product = mongoose.model('Product', productSchema)
+const Product = mongoose.model("Product", productSchema);
 
-export default Product
+export default Product;
+
+// GetStoresByCityID(cityID)
+// GetPrice(storeID)
