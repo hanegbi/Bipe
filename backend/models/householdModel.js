@@ -2,12 +2,11 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const household = new Schema({
-    address: {
-        street: { type: String, required: true },
-        city: { type: String, required: true },
-        postalCode: { type: String, required: true },
-        country: { type: String, required: true },
-    },
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    cityId: { type: Number, required: true },
+    postalCode: { type: String, required: true },
+    country: { type: String, required: true },
     orders: [
         {
             date: {
