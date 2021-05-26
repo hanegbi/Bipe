@@ -22,7 +22,7 @@ app.use(cors());
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("/api/household", householdRoutes);
+app.use("/api/households", householdRoutes);
 //app.use("/api/upload", uploadRoutes);
 
 //const __dirname = path.resolve()

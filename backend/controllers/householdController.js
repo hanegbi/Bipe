@@ -1,19 +1,15 @@
 import asyncHandler from "express-async-handler";
 import Household from "../models/householdModel.js";
 
-// @desc    Create a product
-// @route   POST /api/products
-// @access  Private/Admin
+// @desc    Create a household
+// @route   POST /api/households
+// @access  Public
 const createHousehold = asyncHandler(async (req, res) => {
-    const address = req.body.address;
-
     const household = new Household({
-        address: {
-            street: address.street,
-            city: address.city,
-            postalCode: address.postalCode,
-            country: address.country,
-        },
+        street: req.body.street,
+        city: req.body.city,
+        postalCode: req.body.postalCode,
+        country: req.body.country,
         orders: [],
     });
 
@@ -21,4 +17,12 @@ const createHousehold = asyncHandler(async (req, res) => {
     res.status(201).json(createdHousehold);
 });
 
-export { createHousehold };
+// @desc    Get All households
+// @route   GET /api/households
+// @access  Public
+const getHouseholds = asyncHandler(async (req, res) => {
+    const households = await Household.find({});
+    res.json(households);
+});
+
+export { createHousehold, getHouseholds };
