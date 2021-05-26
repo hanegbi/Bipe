@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const household = new Schema({
     street: { type: String, required: true },
     city: { type: String, required: true },
+    cityId: { type: Number, required: true },
     postalCode: { type: String, required: true },
     country: { type: String, required: true },
     orders: [
