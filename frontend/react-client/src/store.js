@@ -51,6 +51,10 @@ const reducer = combineReducers({
     orderList: orderListReducer,
 });
 
+// const cityIdFromStorage = localStorage.getItem("cityId")
+//     ? JSON.parse(localStorage.getItem("cityId"))
+//     : '1234';
+
 const cartItemsFromStorage = localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [];
@@ -74,6 +78,7 @@ const initialState = {
         shippingAddress: shippingAddressFromStorage,
     },
     userLogin: { userInfo: userInfoFromStorage },
+    // cityId: cityIdFromStorage
 };
 
 const middleware = [thunk];

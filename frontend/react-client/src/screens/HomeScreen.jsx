@@ -16,6 +16,7 @@ function HomeScreen({ match }) {
     const { loading, error, products } = productList;
 
     useEffect(() => {
+        const cityId = localStorage.getItem('cityId');
         dispatch(listProducts(category, keyword));
     }, [dispatch, category, keyword]);
 
