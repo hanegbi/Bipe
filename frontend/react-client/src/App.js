@@ -42,6 +42,12 @@ function App() {
                     <Route
                         path='/admin/productlist'
                         component={ProductListScreen}
+                        exact
+                    />
+                    <Route
+                        path='/admin/productlist/:pageNumber'
+                        component={ProductListScreen}
+                        exact
                     />
                     <Route
                         path='/admin/users/:id/edit'
@@ -62,6 +68,11 @@ function App() {
                     <Route
                         path='/search/:category?/:keyword?'
                         component={HomeScreen}
+                        exact
+                    />
+                    <Route
+                        path='/search/:category?/:keyword?/page/:pageNumber'
+                        component={HomeScreen}
                     />
                     <Route
                         path='/verification'
@@ -76,6 +87,11 @@ function App() {
                         render={() =>
                             (window.location = 'http://localhost:4200')
                         }
+                    />
+                    <Route
+                        path='/page/:pageNumber'
+                        component={HomeScreen}
+                        exact
                     />
                     <Route path='/' component={HomeScreen} exact />
                 </Container>

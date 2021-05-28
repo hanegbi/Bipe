@@ -26,4 +26,23 @@ const getHouseholds = asyncHandler(async (req, res) => {
     res.json(households);
 });
 
-export { createHousehold, getHouseholds };
+// @desc    Add Order ID to household orders list
+// @route   POST /api/households/:id
+// @access  Public
+const addOrder = asyncHandler(async (req, res) => {
+    console.log("hey");
+    const order = req.body.orderId;
+
+    const household = await Household.findById(req.params.id);
+    const today = new Date().toISOString().slice(0, 10);
+
+    if (household.orders[household.orders.length - 1]?.date === today) {
+        household.orders[household.orders.length - 1].list.push(order);
+    } else {
+        household.orders = { date: today, list: [order] };
+    }
+    const updatedHousehold = await household.save();
+    res.json(updatedHousehold);
+});
+
+export { createHousehold, getHouseholds, addOrder };
