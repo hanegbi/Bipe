@@ -8,6 +8,9 @@ import {
     productCreateReducer,
     productUpdateReducer,
 } from "./reducers/productReducers";
+import {
+    householdListReducer,
+} from "./reducers/householdReducer";
 import { cartReducer } from "./reducers/cartReducers";
 import {
     userLoginReducer,
@@ -27,6 +30,7 @@ import {
 } from "./reducers/orderReducers";
 
 const reducer = combineReducers({
+    storeLocationList: householdListReducer,
     productList: productListReducer,
     productDetails: productDetailsReducer,
     productDelete: productDeleteReducer,
@@ -47,6 +51,10 @@ const reducer = combineReducers({
     orderList: orderListReducer,
 });
 
+// const cityIdFromStorage = localStorage.getItem("cityId")
+//     ? JSON.parse(localStorage.getItem("cityId"))
+//     : '1234';
+
 const cartItemsFromStorage = localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [];
@@ -58,11 +66,11 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
 const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
     ? JSON.parse(localStorage.getItem("shippingAddress"))
     : {
-          address: "",
-          city: "",
-          postalCode: "",
-          country: "",
-      };
+        address: "",
+        city: "",
+        postalCode: "",
+        country: "",
+    };
 
 const initialState = {
     cart: {
@@ -70,6 +78,7 @@ const initialState = {
         shippingAddress: shippingAddressFromStorage,
     },
     userLogin: { userInfo: userInfoFromStorage },
+    // cityId: cityIdFromStorage
 };
 
 const middleware = [thunk];
