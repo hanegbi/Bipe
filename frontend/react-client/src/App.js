@@ -15,6 +15,7 @@ import ShippingScreen from './screens/ShippingScreen'
 import OrderScreen from './screens/OrderScreen'
 import UserListScreen from './screens/UserListScreen.jsx'
 import UserEditScreen from './screens/UserEditScreen.jsx'
+import StoreAddressScreen from './screens/StoreAddressScreen.jsx'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import ProductCreateScreen from './screens/ProductCreateScreen'
@@ -28,6 +29,7 @@ function App() {
             <Header />
             <main className='py-3'>
                 <Container>
+                    <Route path='/households' component={StoreAddressScreen} />
                     <Route path='/order/:id' component={OrderScreen} />
                     <Route path='/shipping' component={ShippingScreen} />
                     <Route path='/placeorder' component={PlaceOrderScreen} />
