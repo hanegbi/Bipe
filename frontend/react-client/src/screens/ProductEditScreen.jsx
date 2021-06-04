@@ -87,7 +87,7 @@ function ProductEditScreen({ match, history }) {
                             ></Form.Control>
                         </Form.Group>
 
-                        <Form.Group controlId="email">
+                        {/* <Form.Group controlId="email">
                             <Form.Label>Price</Form.Label>
                             <Form.Control
                                 type="number"
@@ -95,7 +95,7 @@ function ProductEditScreen({ match, history }) {
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)}
                             ></Form.Control>
-                        </Form.Group>
+                        </Form.Group> */}
 
                         <Form.Group controlId="image">
                             <Form.Label>Image</Form.Label>
@@ -107,7 +107,7 @@ function ProductEditScreen({ match, history }) {
                             ></Form.Control>
                         </Form.Group>
 
-                        <Form.Group controlId="brand">
+                        {/* <Form.Group controlId="brand">
                             <Form.Label>Brand</Form.Label>
                             <Form.Control
                                 type="text"
@@ -115,7 +115,7 @@ function ProductEditScreen({ match, history }) {
                                 value={brand}
                                 onChange={(e) => setBrand(e.target.value)}
                             ></Form.Control>
-                        </Form.Group>
+                        </Form.Group> */}
 
                         <Form.Group controlId="countInStock">
                             <Form.Label>Count In Stock</Form.Label>

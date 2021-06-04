@@ -16,6 +16,7 @@ const ProductListScreen = ({ history, match }) => {
     const productList = useSelector((state) => state.productList);
     const { loading, error, products, page, pages } = productList;
 
+
     const productCreate = useSelector((state) => state.productCreate);
     const {
         loading: loadingCreate,
@@ -37,6 +38,11 @@ const ProductListScreen = ({ history, match }) => {
             history.push("/login");
         }
 
+        // useEffect(() => {
+        //     const cityId = localStorage.getItem('cityId');
+        //     console.log(cityId + " " + "screen")
+        //     dispatch(listProducts(category, keyword, pageNumber, cityId));
+        // }, [dispatch, category, keyword, pageNumber]);
         dispatch(listProducts('', pageNumber));
     }, [dispatch, history, userInfo, successDelete, pageNumber]);
 
@@ -77,7 +83,7 @@ const ProductListScreen = ({ history, match }) => {
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Price</th>
+                            {/* <th>Price</th> */}
                             <th>Category</th>
                         </tr>
                     </thead>
@@ -86,7 +92,7 @@ const ProductListScreen = ({ history, match }) => {
                             <tr key={product._id}>
                                 <td>{product._id}</td>
                                 <td>{product.name}</td>
-                                <td>₪{product.price}</td>
+                                {/* <td>₪{product.locations[0].minPrice}</td> */}
                                 <td>{product.category}</td>
                                 <td>
                                     <LinkContainer to={`/admin/product/${product._id}/edit`}>
