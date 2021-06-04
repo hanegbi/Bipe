@@ -18,13 +18,13 @@ import {
 } from '../constants/productConstants'
 
 export const listProducts =
-    (category = '', keyword = '', pageNumber = '') =>
+    (category = '', keyword = '', pageNumber = '', cityId = '') =>
     async (dispatch) => {
         try {
             dispatch({ type: PRODUCT_LIST_REQUEST })
-
+            console.log(cityId + " " + "Action")
             const { data } = await axios.get(
-                `/api/products?category=${category}&keyword=${keyword}&pageNumber=${pageNumber}`
+                `/api/products?category=${category}&keyword=${keyword}&pageNumber=${pageNumber}&cityId=${cityId}`
             )
 
             dispatch({

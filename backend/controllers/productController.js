@@ -7,6 +7,7 @@ import Product from '../models/productModel.js'
 const getProducts = asyncHandler(async (req, res) => {
     const pageSize = 40
     const page = Number(req.query.pageNumber) || 1
+    const cityId = req.query.cityId
     const category = req.query.category
         ? {
               category: {
@@ -28,12 +29,38 @@ const getProducts = asyncHandler(async (req, res) => {
         : {}
 
     const count = await Product.countDocuments({ ...category, ...keyword })
-    const products = await Product.find({ ...category, ...keyword })
+    let products = await Product.find({ ...category, ...keyword })
         .limit(pageSize)
         .skip(pageSize * (page - 1))
 
+        var needToDelete = true;
+    
+        for(var index = 0; index < products.length; index++){
+            var locationsSize = products[index].locations.length;
+            for(var locationIndex = 0; locationIndex < locationsSize; locationIndex++){
+                    if(products[index].locations[locationIndex].cityId == "378"){
+                        needToDelete = false;
+                    }
+                    else{
+                        delete products[index].locations[locationIndex];
+                        if(products[index].locations == null){
+                            delete products[index].locations.key
+                        }
+                    }
+                }
+                
+                // console.log(productsArray[index].name + " " + needToDelete)
+                if(needToDelete == true){
+                    delete products[index];
+                }
+                needToDelete = true;
+        }
+    
+        products = JSON.parse(JSON.stringify(products, (k, v) => Array.isArray(v) ? v.filter(e => e !== null) : v, 2 ))
+        // productResults = JSON.stringify(productResults)
     res.json({products, page, pages: Math.ceil(count / pageSize)})
-})
+    // res.send(products)
+});
 
 // @desc    Fetch single product
 // @route   GET /api/products/:id
