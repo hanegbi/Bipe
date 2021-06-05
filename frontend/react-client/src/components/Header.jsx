@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import {  Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
@@ -7,6 +7,7 @@ import SearchBox from "./SearchBox";
 import { logout } from "../actions/userActions";
 
 function Header() {
+
     const dispatch = useDispatch();
 
     const userLogin = useSelector((state) => state.userLogin);
@@ -20,7 +21,7 @@ function Header() {
         <header>
             <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
                 <Container>
-                    <LinkContainer to="/">
+                    <LinkContainer to="/home">
                         <Navbar.Brand>Bipe</Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -58,9 +59,6 @@ function Header() {
                                     </LinkContainer>
                                     <LinkContainer to="/admin/orderlist">
                                         <NavDropdown.Item>Orders</NavDropdown.Item>
-                                    </LinkContainer>
-                                    <LinkContainer to="/admin/graphs">
-                                        <NavDropdown.Item>Graphs</NavDropdown.Item>
                                     </LinkContainer>
                                 </NavDropdown>
                             )}

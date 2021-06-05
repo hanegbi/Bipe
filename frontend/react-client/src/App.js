@@ -83,17 +83,12 @@ function App() {
                         component={UserVerifiedScreen}
                     />
                     <Route
-                        path='/admin/graphs'
-                        render={() =>
-                            (window.location = 'http://localhost:4200')
-                        }
-                    />
-                    <Route
                         path='/page/:pageNumber'
                         component={HomeScreen}
                         exact
                     />
-                    <Route path='/' component={HomeScreen} exact />
+                    <Route path='/home' component={HomeScreen} exact />
+                    <Route path='/' component={StoreAddressScreen} exact />
                 </Container>
             </main>
             <Footer />

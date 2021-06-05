@@ -13,7 +13,7 @@ function StoreLocation({ household }) {
                 <Card.Img src={"https://vusu82kigqv1hnthm3qtdqed-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Household-Square-White-Border.svg"} variant="top" height="180" width="170" />
             </Link>
             <Card.Body>
-                <Link to={'/'}> {/*`/${household.cityId}`*/}
+                <Link to={'/home'}> {/*`/${household.cityId}`*/}
                     <Card.Title as="div">
                         <strong>{household.street} {household.city}</strong>
                     </Card.Title>
