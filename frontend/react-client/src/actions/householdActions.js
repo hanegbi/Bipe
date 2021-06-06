@@ -2,8 +2,7 @@ import axios from "axios";
 import {
     HOUSEHOLD_LIST_REQUEST,
     HOUSEHOLD_LIST_SUCCESS,
-    HOUSEHOLD_LIST_FAILURE
-
+    HOUSEHOLD_LIST_FAILURE,
 } from "../constants/householeConstants";
 
 export const listHouseholds = () => async (dispatch) => {
@@ -26,7 +25,6 @@ export const listHouseholds = () => async (dispatch) => {
         });
     }
 };
-
 
 // export const deleteHouseHold = (id) => async (dispatch, getState) => {
 //     try {

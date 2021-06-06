@@ -14,7 +14,6 @@ function Product({ product }) {
                         <strong>{product.name}</strong>
                     </Card.Title>
                 </Link>
-                {!product.locations[0] && console.log("ABCDE", product)}
                 <Card.Text as="h3">₪{product.locations[0].minPrice}</Card.Text>
             </Card.Body>
         </Card>
