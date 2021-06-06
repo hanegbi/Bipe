@@ -31,59 +31,72 @@ const getProducts = asyncHandler(async (req, res) => {
         .skip(pageSize * (page - 1));
     if (cityId == "null" || cityId == "") {
         res.json({ products, page, pages: Math.ceil(count / pageSize) });
-    } else {
-        var needToDelete = true;
-
-        for (var index = 0; index < products.length; index++) {
-            var locationsSize = products[index].locations.length;
-            for (var locationIndex = 0; locationIndex < locationsSize; locationIndex++) {
-                if (products[index].locations[locationIndex].cityId == cityId) {
-                    needToDelete = false;
-                } else {
-                    delete products[index].locations[locationIndex];
-                    if (products[index].locations == null) {
-                        delete products[index].locations.key;
-                    }
-                }
-            }
-
-            if (needToDelete == true) {
-                delete products[index];
-            }
-            needToDelete = true;
-        }
-
-        products = JSON.parse(
-            JSON.stringify(
-                products,
-                (k, v) => (Array.isArray(v) ? v.filter((e) => e !== null) : v),
-                2
-            )
-        );
-        for (var index = 0; index < products.length; index++) {
-            products[index].locations = JSON.parse(
-                JSON.stringify(
-                    products[index].locations,
-                    (k, v) => (Array.isArray(v) ? v.filter((e) => e !== null) : v),
-                    2
-                )
-            );
-        }
-        res.json({ products, page, pages: Math.ceil(count / pageSize) });
     }
+
+    const variants = [];
+
+    for (let product of products) {
+        // const variant = getVariantByCityId(product, cityId);
+        // variants.push(variant);
+        for (let location of product.locations) {
+            if (location.cityId !== cityId) continue;
+            const variant = {
+                _id: product._id,
+                name: product.name,
+                barcode: product.barcode,
+                image: product.image,
+                category: product.category,
+                countInStock: product.countInStock,
+                description: product.description,
+                price: location.minPrice,
+            };
+            variants.push(variant);
+        }
+    }
+    res.json({ products: variants, page, pages: Math.ceil(count / pageSize) });
 });
+
+// const getVariantByCityId = (product, cityId) => {
+//     for (let location of product.locations) {
+//         if (location.cityId !== cityId) continue;
+//         return {
+//             _id: product._id,
+//             name: product.name,
+//             barcode: product.barcode,
+//             image: product.image,
+//             category: product.category,
+//             countInStock: product.countInStock,
+//             description: product.description,
+//             price: location.minPrice,
+//         };
+//     }
+// };
 
 // @desc    Fetch single product
 // @route   GET /api/products/:id
 // @access  Public
 const getProductById = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
+    const cityId = req.params.cityId;
 
-    if (product) {
-        res.json(product);
-    } else {
+    if (!product) {
         res.status(404);
         throw new Error("Product not found");
+    }
+
+    for (let location of product.locations) {
+        if (location.cityId !== cityId) continue;
+        const variant = {
+            _id: product._id,
+            name: product.name,
+            barcode: product.barcode,
+            image: product.image,
+            category: product.category,
+            countInStock: product.countInStock,
+            description: product.description,
+            price: location.minPrice,
+        };
+        res.json(variant);
     }
 });
 

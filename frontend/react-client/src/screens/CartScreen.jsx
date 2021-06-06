@@ -17,7 +17,8 @@ const CartScreen = ({ match, location, history }) => {
 
     useEffect(() => {
         if (productId) {
-            dispatch(addToCart(productId, qty));
+            const cityId = localStorage.getItem("cityId");
+            dispatch(addToCart(productId, qty, cityId));
         }
     }, [dispatch, productId, qty]);
 
