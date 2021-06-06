@@ -3,7 +3,10 @@ import {
     HOUSEHOLD_LIST_REQUEST,
     HOUSEHOLD_LIST_SUCCESS,
     HOUSEHOLD_LIST_FAILURE,
-} from "../constants/householeConstants";
+    HOUSEHOLD_DETAILS_REQUEST,
+    HOUSEHOLD_DETAILS_SUCCESS,
+    HOUSEHOLD_DETAILS_FAILURE,
+} from "../constants/householdConstants";
 
 export const listHouseholds = () => async (dispatch) => {
     try {
@@ -18,6 +21,27 @@ export const listHouseholds = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: HOUSEHOLD_LIST_FAILURE,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const listHouseholdDetails = (cityId) => async (dispatch) => {
+    try {
+        dispatch({ type: HOUSEHOLD_DETAILS_REQUEST });
+
+        const { data } = await axios.get(`/api/households/${cityId}`);
+
+        dispatch({
+            type: HOUSEHOLD_DETAILS_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: HOUSEHOLD_DETAILS_FAILURE,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message

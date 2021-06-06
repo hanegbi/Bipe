@@ -44,4 +44,9 @@ const addOrder = asyncHandler(async (req, res) => {
     res.json(updatedHousehold);
 });
 
-export { createHousehold, getHouseholds, addOrder };
+const getHouseholdByCityId = asyncHandler(async (req, res) => {
+    const household = await Household.findOne({ cityId: req.params.id });
+    res.json(household);
+});
+
+export { createHousehold, getHouseholds, addOrder, getHouseholdByCityId };
