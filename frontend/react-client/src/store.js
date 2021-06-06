@@ -8,7 +8,11 @@ import {
     productCreateReducer,
     productUpdateReducer,
 } from "./reducers/productReducers";
-import { householdDetailsReducer, householdListReducer } from "./reducers/householdReducer";
+import {
+    householdAddOrderReducer,
+    householdDetailsReducer,
+    householdListReducer,
+} from "./reducers/householdReducer";
 import { cartReducer } from "./reducers/cartReducers";
 import {
     userLoginReducer,
@@ -30,6 +34,7 @@ import {
 const reducer = combineReducers({
     storeLocationList: householdListReducer,
     householdDetails: householdDetailsReducer,
+    householdAddOrder: householdAddOrderReducer,
     productList: productListReducer,
     productDetails: productDetailsReducer,
     productDelete: productDeleteReducer,

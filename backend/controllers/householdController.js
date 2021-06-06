@@ -30,6 +30,7 @@ const getHouseholds = asyncHandler(async (req, res) => {
 // @route   POST /api/households/:id
 // @access  Public
 const addOrder = asyncHandler(async (req, res) => {
+    console.log("called");
     const order = req.body.orderId;
 
     const household = await Household.findById(req.params.id);
@@ -44,6 +45,9 @@ const addOrder = asyncHandler(async (req, res) => {
     res.json(updatedHousehold);
 });
 
+// @desc    Get household details by city id
+// @route   GET /api/households/:id
+// @access  Public
 const getHouseholdByCityId = asyncHandler(async (req, res) => {
     const household = await Household.findOne({ cityId: req.params.id });
     res.json(household);
