@@ -12,17 +12,15 @@ function HomeScreen({ match }) {
     const keyword = match.params.keyword;
     const pageNumber = match.params.pageNumber || 1;
     // const cityId = match.params.cityId;
-    
+
     var globalcityId;
     const dispatch = useDispatch();
 
     const productList = useSelector((state) => state.productList);
     const { loading, error, products, page, pages } = productList;
 
-        
     useEffect(() => {
-        const cityId = localStorage.getItem('cityId');
-        console.log(cityId + " " + "screen")
+        const cityId = localStorage.getItem("cityId");
         dispatch(listProducts(category, keyword, pageNumber, cityId));
     }, [dispatch, category, keyword, pageNumber]);
 
@@ -35,14 +33,19 @@ function HomeScreen({ match }) {
                 <Message variant="danger">{error}</Message>
             ) : (
                 <>
-                <Row>
-                    {products.map((product) => (
-                        <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                            <Product product={product} />
-                        </Col>
-                    ))}
-                </Row>
-                <Paginate pages={pages} page={page} category={category ? category: ''} keyword={keyword ? keyword: ''}/>
+                    <Row>
+                        {products.map((product) => (
+                            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                                <Product product={product} />
+                            </Col>
+                        ))}
+                    </Row>
+                    <Paginate
+                        pages={pages}
+                        page={page}
+                        category={category ? category : ""}
+                        keyword={keyword ? keyword : ""}
+                    />
                 </>
             )}
         </>

@@ -2,9 +2,14 @@ import axios from "axios";
 import {
     HOUSEHOLD_LIST_REQUEST,
     HOUSEHOLD_LIST_SUCCESS,
-    HOUSEHOLD_LIST_FAILURE
-
-} from "../constants/householeConstants";
+    HOUSEHOLD_LIST_FAILURE,
+    HOUSEHOLD_DETAILS_REQUEST,
+    HOUSEHOLD_DETAILS_SUCCESS,
+    HOUSEHOLD_DETAILS_FAILURE,
+    HOUSEHOLD_ADD_ORDER_REQUEST,
+    HOUSEHOLD_ADD_ORDER_SUCCESS,
+    HOUSEHOLD_ADD_ORDER_FAILURE,
+} from "../constants/householdConstants";
 
 export const listHouseholds = () => async (dispatch) => {
     try {
@@ -27,6 +32,47 @@ export const listHouseholds = () => async (dispatch) => {
     }
 };
 
+export const listHouseholdDetails = (cityId) => async (dispatch) => {
+    try {
+        dispatch({ type: HOUSEHOLD_DETAILS_REQUEST });
+
+        const { data } = await axios.get(`/api/households/${cityId}`);
+
+        dispatch({
+            type: HOUSEHOLD_DETAILS_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: HOUSEHOLD_DETAILS_FAILURE,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const addOrderToHousehold = (orderId, householdId) => async (dispatch) => {
+    try {
+        dispatch({ type: HOUSEHOLD_ADD_ORDER_REQUEST });
+
+        const { data } = await axios.post(`/api/households/${householdId}`, { orderId });
+
+        dispatch({
+            type: HOUSEHOLD_ADD_ORDER_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: HOUSEHOLD_ADD_ORDER_FAILURE,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
 
 // export const deleteHouseHold = (id) => async (dispatch, getState) => {
 //     try {

@@ -4,6 +4,7 @@ import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import { createOrder } from "../actions/orderActions";
+import { addOrderToHousehold, listHouseholdDetails } from "../actions/householdActions";
 
 function PlaceOrderScreen({ history }) {
     const dispatch = useDispatch();
@@ -26,12 +27,26 @@ function PlaceOrderScreen({ history }) {
     const orderCreate = useSelector((state) => state.orderCreate);
     const { order, success, error } = orderCreate;
 
+    const householdDetails = useSelector((state) => state.householdDetails);
+    const { loading, error: householdError, household } = householdDetails;
+
     useEffect(() => {
+        const cityId = localStorage.getItem("cityId");
+        dispatch(listHouseholdDetails(cityId));
+
+        cart.shippingAddress = {
+            address: household.street,
+            city: household.city,
+            postalCode: household.postalCode,
+            country: household.country,
+        };
+
         if (success) {
+            dispatch(addOrderToHousehold(order._id, household._id));
             history.push(`/order/${order._id}`);
         }
         // eslint-disable-next-line
-    }, [history, success]);
+    }, [history, dispatch, success, household]);
 
     const placeOrderHandler = () => {
         dispatch(
@@ -56,8 +71,8 @@ function PlaceOrderScreen({ history }) {
                             <h2>Shipping</h2>
                             <p>
                                 <strong>Address: </strong>
-                                {cart.shippingAddress.address}, {cart.shippingAddress.city},{" "}
-                                {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
+                                {cart.shippingAddress.city}, {cart.shippingAddress.postalCode},{" "}
+                                {cart.shippingAddress.country}
                             </p>
                         </ListGroup.Item>
 

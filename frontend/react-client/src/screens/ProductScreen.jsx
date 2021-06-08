@@ -15,7 +15,8 @@ function ProductScreen({ history, match }) {
     const { loading, error, product } = productDetails;
 
     useEffect(() => {
-        dispatch(listProductDetails(match.params.id));
+        const cityId = localStorage.getItem("cityId");
+        dispatch(listProductDetails(match.params.id, cityId));
     }, [dispatch, match]);
 
     const addToCartHandler = () => {

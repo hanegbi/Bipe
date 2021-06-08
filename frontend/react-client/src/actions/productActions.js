@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios";
 import {
     PRODUCT_LIST_REQUEST,
     PRODUCT_LIST_SUCCESS,
@@ -15,22 +15,21 @@ import {
     PRODUCT_UPDATE_SUCCESS,
     PRODUCT_UPDATE_FAIL,
     PRODUCT_UPDATE_REQUEST,
-} from '../constants/productConstants'
+} from "../constants/productConstants";
 
 export const listProducts =
-    (category = '', keyword = '', pageNumber = '', cityId = '') =>
+    (category = "", keyword = "", pageNumber = "", cityId = "") =>
     async (dispatch) => {
         try {
-            dispatch({ type: PRODUCT_LIST_REQUEST })
-            console.log(cityId + " " + "Action")
+            dispatch({ type: PRODUCT_LIST_REQUEST });
             const { data } = await axios.get(
                 `/api/products?category=${category}&keyword=${keyword}&pageNumber=${pageNumber}&cityId=${cityId}`
-            )
+            );
 
             dispatch({
                 type: PRODUCT_LIST_SUCCESS,
                 payload: data,
-            })
+            });
         } catch (error) {
             dispatch({
                 type: PRODUCT_LIST_FAILURE,
@@ -38,20 +37,20 @@ export const listProducts =
                     error.response && error.response.data.message
                         ? error.response.data.message
                         : error.message,
-            })
+            });
         }
-    }
+    };
 
-export const listProductDetails = (id) => async (dispatch) => {
+export const listProductDetails = (id, cityId) => async (dispatch) => {
     try {
-        dispatch({ type: PRODUCT_DETAILS_REQUEST })
+        dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-        const { data } = await axios.get(`/api/products/${id}`)
+        const { data } = await axios.get(`/api/products/${id}/${cityId}`);
 
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,
             payload: data,
-        })
+        });
     } catch (error) {
         dispatch({
             type: PRODUCT_DETAILS_FAIL,
@@ -59,128 +58,123 @@ export const listProductDetails = (id) => async (dispatch) => {
                 error.response && error.response.data.message
                     ? error.response.data.message
                     : error.message,
-        })
+        });
     }
-}
+};
 
 export const deleteProduct = (id) => async (dispatch, getState) => {
     try {
         dispatch({
             type: PRODUCT_DELETE_REQUEST,
-        })
+        });
 
         const {
             userLogin: { userInfo },
-        } = getState()
+        } = getState();
 
         const config = {
             headers: {
                 Authorization: `Bearer ${userInfo.token}`,
             },
-        }
+        };
 
-        await axios.delete(`/api/products/${id}`, config)
+        await axios.delete(`/api/products/${id}`, config);
 
         dispatch({
             type: PRODUCT_DELETE_SUCCESS,
-        })
+        });
     } catch (error) {
         const message =
             error.response && error.response.data.message
                 ? error.response.data.message
-                : error.message
-        if (message === 'Not authorized, token failed') {
-            dispatch()
+                : error.message;
+        if (message === "Not authorized, token failed") {
+            dispatch();
         }
         dispatch({
             type: PRODUCT_DELETE_FAIL,
             payload: message,
-        })
+        });
     }
-}
+};
 
 export const createProduct =
     ({ name, price, image, brand, category, description, countInStock }) =>
     async (dispatch, getState) => {
         try {
-            console.log(image)
             dispatch({
                 type: PRODUCT_CREATE_REQUEST,
-            })
+            });
 
             const {
                 userLogin: { userInfo },
-            } = getState()
+            } = getState();
 
             const config = {
                 headers: {
                     Authorization: `Bearer ${userInfo.token}`,
                 },
-            }
+            };
 
             const { data } = await axios.post(
                 `/api/products?name=${name}&price=${price}&image=${image}&brand=${brand}&category=${category}&description=${description}&countinstock=${countInStock}`,
                 {},
                 config
-            )
+            );
 
             dispatch({
                 type: PRODUCT_CREATE_SUCCESS,
                 payload: data,
-            })
+            });
         } catch (error) {
             const message =
                 error.response && error.response.data.message
                     ? error.response.data.message
-                    : error.message
-            if (message === 'Not authorized, token failed') {
-                dispatch()
+                    : error.message;
+            if (message === "Not authorized, token failed") {
+                dispatch();
             }
             dispatch({
                 type: PRODUCT_CREATE_FAIL,
                 payload: message,
-            })
+            });
         }
-    }
+    };
 
 export const updateProduct = (product) => async (dispatch, getState) => {
     try {
         dispatch({
             type: PRODUCT_UPDATE_REQUEST,
-        })
+        });
 
         const {
             userLogin: { userInfo },
-        } = getState()
+        } = getState();
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${userInfo.token}`,
             },
-        }
+        };
 
-        const { data } = await axios.put(
-            `/api/products/${product._id}`,
-            product,
-            config
-        )
+        const { data } = await axios.put(`/api/products/${product._id}`, product, config);
 
         dispatch({
             type: PRODUCT_UPDATE_SUCCESS,
             payload: data,
-        })
+        });
     } catch (error) {
         const message =
             error.response && error.response.data.message
                 ? error.response.data.message
-                : error.message
-        if (message === 'Not authorized, token failed') {
-            dispatch()
+                : error.message;
+        if (message === "Not authorized, token failed") {
+            dispatch();
         }
         dispatch({
             type: PRODUCT_UPDATE_FAIL,
             payload: message,
-        })
+        });
     }
-}
+};
