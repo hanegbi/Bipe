@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
@@ -15,12 +15,13 @@ function Header() {
     const logoutHandler = () => {
         dispatch(logout());
     };
+    
 
     return (
         <header>
             <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
                 <Container>
-                    <LinkContainer to="/">
+                    <LinkContainer to="/home" component>
                         <Navbar.Brand>Bipe</Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />

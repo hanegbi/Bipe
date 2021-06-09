@@ -19,50 +19,51 @@ import {
 
 export const listProducts =
     (category = "", keyword = "", pageNumber = "", cityId = "") =>
-    async (dispatch) => {
-        try {
-            dispatch({ type: PRODUCT_LIST_REQUEST });
-            const { data } = await axios.get(
-                `/api/products?category=${category}&keyword=${keyword}&pageNumber=${pageNumber}&cityId=${cityId}`
-            );
+        async (dispatch) => {
+            try {
+                dispatch({ type: PRODUCT_LIST_REQUEST });
+                const { data } = await axios.get(
+                    `/api/products?category=${category}&keyword=${keyword}&pageNumber=${pageNumber}&cityId=${cityId}`
+                );
 
-            dispatch({
-                type: PRODUCT_LIST_SUCCESS,
-                payload: data,
-            });
-        } catch (error) {
-            dispatch({
-                type: PRODUCT_LIST_FAILURE,
-                payload:
-                    error.response && error.response.data.message
-                        ? error.response.data.message
-                        : error.message,
-            });
-        }
-    };
+                dispatch({
+                    type: PRODUCT_LIST_SUCCESS,
+                    payload: data,
+                });
+            } catch (error) {
+                dispatch({
+                    type: PRODUCT_LIST_FAILURE,
+                    payload:
+                        error.response && error.response.data.message
+                            ? error.response.data.message
+                            : error.message,
+                });
+            }
+        };
 
 export const listProductDetails =
     (id, cityId = "1180") =>
-    async (dispatch) => {
-        try {
-            dispatch({ type: PRODUCT_DETAILS_REQUEST });
+        async (dispatch) => {
+            try {
+                dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-            const { data } = await axios.get(`/api/products/${id}/${cityId}`);
+                const { data } = await axios.get(`/api/products/${id}/${cityId}`);
 
-            dispatch({
-                type: PRODUCT_DETAILS_SUCCESS,
-                payload: data,
-            });
-        } catch (error) {
-            dispatch({
-                type: PRODUCT_DETAILS_FAIL,
-                payload:
-                    error.response && error.response.data.message
-                        ? error.response.data.message
-                        : error.message,
-            });
-        }
-    };
+
+                dispatch({
+                    type: PRODUCT_DETAILS_SUCCESS,
+                    payload: data.product,
+                });
+            } catch (error) {
+                dispatch({
+                    type: PRODUCT_DETAILS_FAIL,
+                    payload:
+                        error.response && error.response.data.message
+                            ? error.response.data.message
+                            : error.message,
+                });
+            }
+        };
 
 export const deleteProduct = (id) => async (dispatch, getState) => {
     try {
@@ -102,46 +103,46 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 
 export const createProduct =
     ({ name, price, image, brand, category, description, countInStock }) =>
-    async (dispatch, getState) => {
-        try {
-            dispatch({
-                type: PRODUCT_CREATE_REQUEST,
-            });
+        async (dispatch, getState) => {
+            try {
+                dispatch({
+                    type: PRODUCT_CREATE_REQUEST,
+                });
 
-            const {
-                userLogin: { userInfo },
-            } = getState();
+                const {
+                    userLogin: { userInfo },
+                } = getState();
 
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${userInfo.token}`,
-                },
-            };
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${userInfo.token}`,
+                    },
+                };
 
-            const { data } = await axios.post(
-                `/api/products?name=${name}&price=${price}&image=${image}&brand=${brand}&category=${category}&description=${description}&countinstock=${countInStock}`,
-                {},
-                config
-            );
+                const { data } = await axios.post(
+                    `/api/products?name=${name}&price=${price}&image=${image}&brand=${brand}&category=${category}&description=${description}&countinstock=${countInStock}`,
+                    {},
+                    config
+                );
 
-            dispatch({
-                type: PRODUCT_CREATE_SUCCESS,
-                payload: data,
-            });
-        } catch (error) {
-            const message =
-                error.response && error.response.data.message
-                    ? error.response.data.message
-                    : error.message;
-            if (message === "Not authorized, token failed") {
-                dispatch();
+                dispatch({
+                    type: PRODUCT_CREATE_SUCCESS,
+                    payload: data,
+                });
+            } catch (error) {
+                const message =
+                    error.response && error.response.data.message
+                        ? error.response.data.message
+                        : error.message;
+                if (message === "Not authorized, token failed") {
+                    dispatch();
+                }
+                dispatch({
+                    type: PRODUCT_CREATE_FAIL,
+                    payload: message,
+                });
             }
-            dispatch({
-                type: PRODUCT_CREATE_FAIL,
-                payload: message,
-            });
-        }
-    };
+        };
 
 export const updateProduct = (product) => async (dispatch, getState) => {
     try {
