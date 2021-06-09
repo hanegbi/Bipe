@@ -96,7 +96,7 @@ const getProductById = asyncHandler(async (req, res) => {
             description: product.description,
             price: location.minPrice,
         };
-        res.json(variant);
+        res.json({ product: variant });
     }
 });
 
