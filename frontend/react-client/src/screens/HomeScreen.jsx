@@ -26,7 +26,7 @@ function HomeScreen({ match }) {
 
     return (
         <>
-            <h1>Recommended Products</h1>
+            <h1>All your city Products</h1>
             {loading ? (
                 <Loader />
             ) : error ? (

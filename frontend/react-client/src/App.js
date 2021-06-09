@@ -93,7 +93,8 @@ function App() {
                         component={HomeScreen}
                         exact
                     />
-                    <Route path='/' component={HomeScreen} exact />
+                    <Route path='/home' component={HomeScreen} exact />
+                    <Route path='/' component={StoreAddressScreen} exact />
                 </Container>
             </main>
             <Footer />

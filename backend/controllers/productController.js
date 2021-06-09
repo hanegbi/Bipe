@@ -10,19 +10,19 @@ const getProducts = asyncHandler(async (req, res) => {
     let cityId = req.query.cityId;
     let category = req.query.category
         ? {
-              category: {
-                  $regex: req.query.category === "Categories" ? "" : req.query.category,
-                  $options: "i",
-              },
-          }
+            category: {
+                $regex: req.query.category === "Categories" ? "" : req.query.category,
+                $options: "i",
+            },
+        }
         : {};
     let keyword = req.query.keyword
         ? {
-              name: {
-                  $regex: req.query.keyword,
-                  $options: "i",
-              },
-          }
+            name: {
+                $regex: req.query.keyword,
+                $options: "i",
+            },
+        }
         : {};
 
     let count = await Product.countDocuments({ ...category, ...keyword });
