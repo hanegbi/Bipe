@@ -4,18 +4,18 @@ import { Form, Button } from "react-bootstrap";
 
 function SearchBox({ history }) {
     const categories = [
-        'Fruits & Vegetables',
-        'Diary & Eggs',
-        'Drinks',
-        'Sauces & Cannes',
-        'Pastries',
-        'Frozen',
-        'Meat & Chicken',
-        'Snacks & Candies',
-        'Pharm & Detergen',
-        'Toabaco',
-        'Pastas & Legumes',
-        'Other',
+        "Fruits & Vegetables",
+        "Diary & Eggs",
+        "Drinks",
+        "Sauces & Cannes",
+        "Pastries",
+        "Frozen",
+        "Meat & Chicken",
+        "Snacks & Candies",
+        "Pharm & Detergen",
+        "Toabaco",
+        "Pastas & Legumes",
+        "Other",
     ];
 
     const [category, setCategory] = useState("Categories");
@@ -35,16 +35,28 @@ function SearchBox({ history }) {
         setKeyword("");
     };
 
+    const searchCategory = (e) => {
+        const selectedCategory = e.target.name;
+        setCategory(selectedCategory);
+        if (selectedCategory.trim() || keyword.trim()) {
+            console.log(selectedCategory);
+            history.push(`/search/${selectedCategory}/${keyword}`);
+        } else {
+            history.push("/");
+        }
+    };
+
     return (
         <Form onSubmit={submitHandler} inline>
             <DropdownButton
                 className="mr-sm-2 ml-sm-5"
                 title={category === "" ? "Categories" : category}
             >
-                {categories.map((category, index) => (
+                {categories.map((category) => (
                     <Dropdown.Item
-                        onClick={(e) => setCategory(e.target.name)}
-                        key={index}
+                        title={category}
+                        onClick={(e) => searchCategory(e)}
+                        key={category}
                         name={category}
                     >
                         {category}
