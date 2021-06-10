@@ -122,50 +122,52 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
     }
 };
 
-export const listMyOrders = (
-    fromDate = new Date("July 20, 69 00:20:18 GMT+00:00"),
-    untilDate = new Date().getTime(),
-    minPrice = 0,
-    maxPrice = Number.MAX_SAFE_INTEGER
-) => async (dispatch, getState) => {
-    try {
-        dispatch({
-            type: ORDER_LIST_MY_REQUEST,
-        });
+export const listMyOrders =
+    (
+        fromDate = new Date("July 20, 69 00:20:18 GMT+00:00"),
+        untilDate = new Date().getTime(),
+        minPrice = 0,
+        maxPrice = Number.MAX_SAFE_INTEGER
+    ) =>
+    async (dispatch, getState) => {
+        try {
+            dispatch({
+                type: ORDER_LIST_MY_REQUEST,
+            });
 
-        const {
-            userLogin: { userInfo },
-        } = getState();
+            const {
+                userLogin: { userInfo },
+            } = getState();
 
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`,
-            },
-        };
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token}`,
+                },
+            };
 
-        const { data } = await axios.get(
-            `/api/orders/myorders?fromdate=${fromDate}&untildate=${untilDate}&minprice=${minPrice}&maxprice=${maxPrice}`,
-            config
-        );
+            const { data } = await axios.get(
+                `/api/orders/myorders?fromdate=${fromDate}&untildate=${untilDate}&minprice=${minPrice}&maxprice=${maxPrice}`,
+                config
+            );
 
-        dispatch({
-            type: ORDER_LIST_MY_SUCCESS,
-            payload: data,
-        });
-    } catch (error) {
-        const message =
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message;
-        if (message === "Not authorized, token failed") {
-            dispatch(logout());
+            dispatch({
+                type: ORDER_LIST_MY_SUCCESS,
+                payload: data,
+            });
+        } catch (error) {
+            const message =
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message;
+            if (message === "Not authorized, token failed") {
+                dispatch(logout());
+            }
+            dispatch({
+                type: ORDER_LIST_MY_FAILURE,
+                payload: message,
+            });
         }
-        dispatch({
-            type: ORDER_LIST_MY_FAILURE,
-            payload: message,
-        });
-    }
-};
+    };
 
 export const listOrders = () => async (dispatch, getState) => {
     try {

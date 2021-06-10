@@ -4,7 +4,7 @@ import { Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listOrders } from "../actions/orderActions";
+import { listHouseholds } from "../actions/householdActions";
 
 const GroupOrderListScreen = ({ history }) => {
     const dispatch = useDispatch();
@@ -12,15 +12,12 @@ const GroupOrderListScreen = ({ history }) => {
     const householdsOrders = useSelector((state) => state.storeLocationList);
     const { loading, error, storeLocations } = householdsOrders;
 
-    // const orderList = useSelector((state) => state.orderList);
-    // const { loading, error, orders } = orderList;
-
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
     useEffect(() => {
         if (userInfo && userInfo.isAdmin) {
-            dispatch(listOrders());
+            dispatch(listHouseholds());
         } else {
             history.push("/login");
         }
@@ -58,7 +55,7 @@ const GroupOrderListScreen = ({ history }) => {
                                             .reduce((acc, cur) => acc + cur, 0)}
                                     </td>
                                     <td>
-                                        <LinkContainer to={`/order/${order._id}`}>
+                                        <LinkContainer to={`/admin/orderlist/${order._id}`}>
                                             <Button variant="light" className="btn-sm">
                                                 Details
                                             </Button>

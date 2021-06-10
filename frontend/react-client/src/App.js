@@ -49,7 +49,7 @@ function App() {
                     <Route path="/admin/users/:id/edit" component={UserEditScreen} />
                     <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
                     <Route path="/admin/product/create" component={ProductCreateScreen} />
-                    <Route path="/admin/orderlist" component={OrderListScreen} />
+                    <Route path="/admin/orderlist/:id" component={OrderListScreen} />
                     <Route path="/admin/grouporderlist" component={GroupOrderListScreen} />
                     <Route path="/search/:category?/:keyword?" component={HomeScreen} exact />
                     <Route

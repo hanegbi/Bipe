@@ -8,6 +8,9 @@ import {
     HOUSEHOLD_ADD_ORDER_REQUEST,
     HOUSEHOLD_ADD_ORDER_SUCCESS,
     HOUSEHOLD_ADD_ORDER_FAILURE,
+    HOUSEHOLD_ORDERS_REQUEST,
+    HOUSEHOLD_ORDERS_SUCCESS,
+    HOUSEHOLD_ORDERS_FAILURE,
 } from "../constants/householdConstants";
 
 export const householdListReducer = (state = { storeLocations: [] }, action) => {
@@ -43,6 +46,19 @@ export const householdAddOrderReducer = (state = { household: {} }, action) => {
         case HOUSEHOLD_ADD_ORDER_SUCCESS:
             return { loading: false, household: action.payload };
         case HOUSEHOLD_ADD_ORDER_FAILURE:
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
+
+export const householdOrdersListReducer = (state = { orders: [] }, action) => {
+    switch (action.type) {
+        case HOUSEHOLD_ORDERS_REQUEST:
+            return { loading: true, orders: [] };
+        case HOUSEHOLD_ORDERS_SUCCESS:
+            return { loading: false, orders: action.payload };
+        case HOUSEHOLD_ORDERS_FAILURE:
             return { loading: false, error: action.payload };
         default:
             return state;

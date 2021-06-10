@@ -9,6 +9,9 @@ import {
     HOUSEHOLD_ADD_ORDER_REQUEST,
     HOUSEHOLD_ADD_ORDER_SUCCESS,
     HOUSEHOLD_ADD_ORDER_FAILURE,
+    HOUSEHOLD_ORDERS_REQUEST,
+    HOUSEHOLD_ORDERS_SUCCESS,
+    HOUSEHOLD_ORDERS_FAILURE,
 } from "../constants/householdConstants";
 
 export const listHouseholds = () => async (dispatch) => {
@@ -66,6 +69,27 @@ export const addOrderToHousehold = (orderId, householdId) => async (dispatch) =>
     } catch (error) {
         dispatch({
             type: HOUSEHOLD_ADD_ORDER_FAILURE,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const listHouseholdOrders = (groupOrderId) => async (dispatch) => {
+    try {
+        dispatch({ type: HOUSEHOLD_ORDERS_REQUEST });
+
+        const { data } = await axios.get(`/api/households/orders/${groupOrderId}`);
+
+        dispatch({
+            type: HOUSEHOLD_ORDERS_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: HOUSEHOLD_ORDERS_FAILURE,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message

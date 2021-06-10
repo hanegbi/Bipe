@@ -30,7 +30,6 @@ const getHouseholds = asyncHandler(async (req, res) => {
 // @route   POST /api/households/:id
 // @access  Public
 const addOrder = asyncHandler(async (req, res) => {
-    console.log("called");
     const order = req.body.orderId;
 
     const household = await Household.findById(req.params.id);
@@ -39,7 +38,7 @@ const addOrder = asyncHandler(async (req, res) => {
     if (household.orders[household.orders.length - 1]?.date === today) {
         household.orders[household.orders.length - 1].list.push(order);
     } else {
-        household.orders = { date: today, list: [order] };
+        household.orders.push({ date: today, list: [order] });
     }
     const updatedHousehold = await household.save();
     res.json(updatedHousehold);
@@ -53,6 +52,23 @@ const getHouseholdByCityId = asyncHandler(async (req, res) => {
     res.json(household);
 });
 
-const getHouseholdOrders = asyncHandler(async (req, res) => {});
+// @desc    Get orders by household order id
+// @route   GET /api/households/orders/:groupOrderId
+// @access  Public
+const getHouseholdOrders = asyncHandler(async (req, res) => {
+    const groupOrderId = req.params.groupOrderId;
 
-export { createHousehold, getHouseholds, addOrder, getHouseholdByCityId };
+    const households = await Household.find({}).populate("orders.list");
+
+    for (let household of households) {
+        for (let groupOrder of household.orders) {
+            if (groupOrder._id != groupOrderId) continue;
+            console.log(groupOrder._id);
+
+            res.json(groupOrder.list);
+        }
+    }
+    res.send([]);
+});
+
+export { createHousehold, getHouseholds, addOrder, getHouseholdByCityId, getHouseholdOrders };
