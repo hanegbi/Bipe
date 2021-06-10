@@ -8,7 +8,7 @@ const createHousehold = asyncHandler(async (req, res) => {
     const household = new Household({
         street: req.body.street,
         city: req.body.city,
-        cityId: req.body.cityId,
+        cityId: req.body.cityId || 1180,
         postalCode: req.body.postalCode,
         country: req.body.country,
         orders: [],

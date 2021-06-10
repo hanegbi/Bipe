@@ -23,6 +23,7 @@ import OrderListScreen from "./screens/OrderListScreen";
 import GroupOrderListScreen from "./screens/GroupOrderListScreen";
 import EmailVerficiationScreen from "./screens/EmailVerficiationScreen";
 import UserVerifiedScreen from "./screens/UserVerifiedScreen";
+import HouseholdCreateScreen from "./screens/HouseholdCreateScreen";
 
 function App() {
     return (
@@ -64,6 +65,7 @@ function App() {
                     />
                     <Route path="/page/:pageNumber" component={HomeScreen} exact />
                     <Route path="/home" component={HomeScreen} exact />
+                    <Route path="/household/create" component={HouseholdCreateScreen} />
                     <Route path="/" component={StoreAddressScreen} exact />
                 </Container>
             </main>
