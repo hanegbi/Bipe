@@ -22,7 +22,7 @@ const createHousehold = asyncHandler(async (req, res) => {
 // @route   GET /api/households
 // @access  Public
 const getHouseholds = asyncHandler(async (req, res) => {
-    const households = await Household.find({});
+    const households = await Household.find({}).populate("orders.list");
     res.json(households);
 });
 
@@ -52,5 +52,7 @@ const getHouseholdByCityId = asyncHandler(async (req, res) => {
     const household = await Household.findOne({ cityId: req.params.id });
     res.json(household);
 });
+
+const getHouseholdOrders = asyncHandler(async (req, res) => {});
 
 export { createHousehold, getHouseholds, addOrder, getHouseholdByCityId };
