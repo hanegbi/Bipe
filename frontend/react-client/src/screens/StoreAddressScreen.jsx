@@ -24,9 +24,16 @@ function StoreAddressScreen({ history }) {
             ) : error ? (
                 <Message variant="danger">{error}</Message>
             ) : (
-                <Row onClick={() => history.push("/home")}>
+                <Row className="justify-content-md-center">
                     {storeLocations.map((storeLocation) => (
-                        <Col key={storeLocation.cityId} sm={12} md={6} lg={4} xl={3}>
+                        <Col
+                            onClick={() => history.push("/home")}
+                            key={storeLocation.cityId}
+                            sm={12}
+                            md={6}
+                            lg={4}
+                            xl={3}
+                        >
                             <StoreLocation household={storeLocation} />
                         </Col>
                     ))}

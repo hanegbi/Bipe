@@ -1,42 +1,48 @@
-import React from 'react'
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useHistory } from 'react-router';
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useHistory } from "react-router";
 
-const UserVerifiedScreen = ({match}) => {
-    const {userId, isVerified} = match.params;
-    const [counter, setCounter] = useState(5)
-    const history = useHistory()
-    const userVerifiedEmail = isVerified === "true"
+const UserVerifiedScreen = ({ match }) => {
+    const { isVerified } = match.params;
+    const [counter, setCounter] = useState(5);
+    const history = useHistory();
+    const userVerifiedEmail = isVerified === "true";
 
-    useEffect(()=>{
+    useEffect(() => {
         setTimeout(() => {
-            if(userVerifiedEmail) {
-                history.push('/login')
+            if (userVerifiedEmail) {
+                history.push("/login");
             } else {
-                history.push('/')
+                history.push("/");
             }
         }, 5000);
 
         setInterval(() => {
-            setCounter((counter) => counter-1)            
+            setCounter((counter) => counter - 1);
         }, 1000);
 
         return () => {
-            clearTimeout()
-            clearInterval()
-        }
-    },[])
+            clearTimeout();
+            clearInterval();
+        };
+    }, [history]);
 
-    if(userVerifiedEmail){
-        return <div><p>Your email has been verified.</p>
-        <p>You will be directed to login page in {counter}</p>
-        </div>
+    if (userVerifiedEmail) {
+        return (
+            <div>
+                <p>Your email has been verified.</p>
+                <p>You will be directed to login page in {counter}</p>
+            </div>
+        );
     } else {
-        return <div><p>There was an error, your email has not been verified</p>
-            <p>You will be directed to home page in {counter}</p>
-        </div>
+        return (
+            <div>
+                <p>There was an error, your email has not been verified</p>
+                <p>You will be directed to home page in {counter}</p>
+            </div>
+        );
     }
-}
+};
 
-export default UserVerifiedScreen
+export default UserVerifiedScreen;
