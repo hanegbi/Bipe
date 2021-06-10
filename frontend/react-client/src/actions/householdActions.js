@@ -12,6 +12,9 @@ import {
     HOUSEHOLD_ORDERS_REQUEST,
     HOUSEHOLD_ORDERS_SUCCESS,
     HOUSEHOLD_ORDERS_FAILURE,
+    HOUSEHOLD_CREATE_REQUEST,
+    HOUSEHOLD_CREATE_SUCCESS,
+    HOUSEHOLD_CREATE_FAILURE,
 } from "../constants/householdConstants";
 
 export const listHouseholds = () => async (dispatch) => {
@@ -134,55 +137,44 @@ export const listHouseholdOrders = (groupOrderId) => async (dispatch) => {
 //     }
 // };
 
-// export const createHousehold = ({
-//     name,
-//     price,
-//     image,
-//     brand,
-//     category,
-//     description,
-//     countInStock,
-// }) => async (dispatch, getState) => {
-//     try {
-//         console.log(image);
-//         dispatch({
-//             type: PRODUCT_CREATE_REQUEST,
-//         });
+export const createHousehold = (household) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: HOUSEHOLD_CREATE_REQUEST,
+        });
+        console.log(household);
 
-//         const {
-//             userLogin: { userInfo },
-//         } = getState();
+        const {
+            userLogin: { userInfo },
+        } = getState();
 
-//         const config = {
-//             headers: {
-//                 Authorization: `Bearer ${userInfo.token}`,
-//             },
-//         };
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
 
-//         const { data } = await axios.post(
-//             `/api/products?name=${name}&price=${price}&image=${image}&brand=${brand}&category=${category}&description=${description}&countinstock=${countInStock}`,
-//             {},
-//             config
-//         );
+        const { data } = await axios.post(`/api/households`, household, config);
+        console.log(data);
 
-//         dispatch({
-//             type: PRODUCT_CREATE_SUCCESS,
-//             payload: data,
-//         });
-//     } catch (error) {
-//         const message =
-//             error.response && error.response.data.message
-//                 ? error.response.data.message
-//                 : error.message;
-//         if (message === "Not authorized, token failed") {
-//             dispatch();
-//         }
-//         dispatch({
-//             type: PRODUCT_CREATE_FAIL,
-//             payload: message,
-//         });
-//     }
-// };
+        dispatch({
+            type: HOUSEHOLD_CREATE_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        if (message === "Not authorized, token failed") {
+            dispatch();
+        }
+        dispatch({
+            type: HOUSEHOLD_CREATE_FAILURE,
+            payload: message,
+        });
+    }
+};
 
 // export const updateHousehold = (product) => async (dispatch, getState) => {
 //     try {

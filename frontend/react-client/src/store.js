@@ -10,6 +10,7 @@ import {
 } from "./reducers/productReducers";
 import {
     householdAddOrderReducer,
+    householdCreateReducer,
     householdDetailsReducer,
     householdListReducer,
     householdOrdersListReducer,
@@ -37,6 +38,7 @@ const reducer = combineReducers({
     householdDetails: householdDetailsReducer,
     householdAddOrder: householdAddOrderReducer,
     householdOrdersList: householdOrdersListReducer,
+    householdCreate: householdCreateReducer,
     productList: productListReducer,
     productDetails: productDetailsReducer,
     productDelete: productDeleteReducer,
