@@ -11,9 +11,7 @@ function HomeScreen({ match }) {
     const category = match.params.category;
     const keyword = match.params.keyword;
     const pageNumber = match.params.pageNumber || 1;
-    // const cityId = match.params.cityId;
 
-    var globalcityId;
     const dispatch = useDispatch();
 
     const productList = useSelector((state) => state.productList);

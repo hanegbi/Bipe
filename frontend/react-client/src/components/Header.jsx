@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
@@ -15,7 +15,6 @@ function Header() {
     const logoutHandler = () => {
         dispatch(logout());
     };
-    
 
     return (
         <header>
@@ -57,12 +56,9 @@ function Header() {
                                     <LinkContainer to="/admin/productlist">
                                         <NavDropdown.Item>Products</NavDropdown.Item>
                                     </LinkContainer>
-                                    <LinkContainer to="/admin/orderlist">
-                                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                                    <LinkContainer to="/admin/grouporderlist">
+                                        <NavDropdown.Item>Group Orders</NavDropdown.Item>
                                     </LinkContainer>
-                                    {/* <LinkContainer to="/admin/graphs">
-                                        <NavDropdown.Item>Graphs</NavDropdown.Item>
-                                    </LinkContainer> */}
                                 </NavDropdown>
                             )}
                         </Nav>

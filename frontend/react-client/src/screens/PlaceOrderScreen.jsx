@@ -28,7 +28,7 @@ function PlaceOrderScreen({ history }) {
     const { order, success, error } = orderCreate;
 
     const householdDetails = useSelector((state) => state.householdDetails);
-    const { loading, error: householdError, household } = householdDetails;
+    const { household } = householdDetails;
 
     useEffect(() => {
         const cityId = localStorage.getItem("cityId");

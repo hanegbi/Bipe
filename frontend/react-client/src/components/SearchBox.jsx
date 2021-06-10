@@ -4,18 +4,18 @@ import { Form, Button } from "react-bootstrap";
 
 function SearchBox({ history }) {
     const categories = [
-        'Fruits & Vegetables',
-        'Diary & Eggs',
-        'Drinks',
-        'Sauces & Cannes',
-        'Pastries',
-        'Frozen',
-        'Meat & Chicken',
-        'Snacks & Candies',
-        'Pharm & Detergen',
-        'Toabaco',
-        'Pastas & Legumes',
-        'Other',
+        "Fruits & Vegetables",
+        "Diary & Eggs",
+        "Drinks",
+        "Sauces & Cannes",
+        "Pastries",
+        "Frozen",
+        "Meat & Chicken",
+        "Snacks & Candies",
+        "Pharm & Detergen",
+        "Toabaco",
+        "Pastas & Legumes",
+        "Other",
     ];
 
     const [category, setCategory] = useState("Categories");
@@ -26,13 +26,25 @@ function SearchBox({ history }) {
         if (category.trim() || keyword.trim()) {
             history.push(`/search/${category}/${keyword}`);
         } else {
-            history.push("/");
+            history.push("/home");
         }
     };
 
     const clearFilters = () => {
         setCategory("Categories");
         setKeyword("");
+        history.push("/home");
+    };
+
+    const searchCategory = (e) => {
+        const selectedCategory = e.target.name;
+        setCategory(selectedCategory);
+        if (selectedCategory.trim() || keyword.trim()) {
+            console.log(selectedCategory);
+            history.push(`/search/${selectedCategory}/${keyword}`);
+        } else {
+            history.push("/home");
+        }
     };
 
     return (
@@ -41,10 +53,11 @@ function SearchBox({ history }) {
                 className="mr-sm-2 ml-sm-5"
                 title={category === "" ? "Categories" : category}
             >
-                {categories.map((category, index) => (
+                {categories.map((category) => (
                     <Dropdown.Item
-                        onClick={(e) => setCategory(e.target.name)}
-                        key={index}
+                        title={category}
+                        onClick={(e) => searchCategory(e)}
+                        key={category}
                         name={category}
                     >
                         {category}

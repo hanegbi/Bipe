@@ -4,12 +4,14 @@ import { Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listOrders } from "../actions/orderActions";
+import { listHouseholdOrders } from "../actions/householdActions";
 
-const OrderListScreen = ({ history }) => {
+const OrderListScreen = ({ match, history }) => {
+    const groupOrderId = match.params.id;
+
     const dispatch = useDispatch();
 
-    const orderList = useSelector((state) => state.orderList);
+    const orderList = useSelector((state) => state.householdOrdersList);
     const { loading, error, orders } = orderList;
 
     const userLogin = useSelector((state) => state.userLogin);
@@ -17,7 +19,7 @@ const OrderListScreen = ({ history }) => {
 
     useEffect(() => {
         if (userInfo && userInfo.isAdmin) {
-            dispatch(listOrders());
+            dispatch(listHouseholdOrders(groupOrderId));
         } else {
             history.push("/login");
         }

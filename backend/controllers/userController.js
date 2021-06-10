@@ -34,8 +34,6 @@ const authUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            // homeAddress: user.homeAddress,
-            // workAddress: user.workAddress,
             hasGroup: user.hasGroup,
             household: user.household,
             isAdmin: user.isAdmin,
