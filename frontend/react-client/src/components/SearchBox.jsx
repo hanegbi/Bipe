@@ -26,13 +26,14 @@ function SearchBox({ history }) {
         if (category.trim() || keyword.trim()) {
             history.push(`/search/${category}/${keyword}`);
         } else {
-            history.push("/");
+            history.push("/home");
         }
     };
 
     const clearFilters = () => {
         setCategory("Categories");
         setKeyword("");
+        history.push("/home");
     };
 
     const searchCategory = (e) => {
@@ -42,7 +43,7 @@ function SearchBox({ history }) {
             console.log(selectedCategory);
             history.push(`/search/${selectedCategory}/${keyword}`);
         } else {
-            history.push("/");
+            history.push("/home");
         }
     };
 
